@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academic Monolith - Progress &amp; Mastery</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#fff7f7",
+                        "primary-container": "#e2dfff",
+                        "surface-container": "#ececff",
+                        "inverse-on-surface": "#9c9ca6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d5d8f6",
+                        "on-primary-container": "#3f33d6",
+                        "surface-container-high": "#e5e7fd",
+                        "tertiary-container": "#d2d9f8",
+                        "surface-bright": "#fbf8ff",
+                        "error": "#9e3f4e",
+                        "on-tertiary": "#faf8ff",
+                        "secondary-container": "#e5e1e6",
+                        "error-dim": "#4f0116",
+                        "on-secondary-container": "#525155",
+                        "primary-fixed-dim": "#d2d0ff",
+                        "on-background": "#2e3145",
+                        "outline": "#767990",
+                        "secondary": "#605e62",
+                        "on-surface": "#2e3145",
+                        "tertiary-fixed": "#d2d9f8",
+                        "tertiary-dim": "#4b526c",
+                        "inverse-surface": "#0d0e15",
+                        "on-tertiary-container": "#444c65",
+                        "on-error-container": "#782232",
+                        "surface-container-highest": "#dfe1fb",
+                        "background": "#fbf8ff",
+                        "on-tertiary-fixed-variant": "#4e556f",
+                        "secondary-dim": "#545256",
+                        "on-primary": "#faf6ff",
+                        "on-secondary-fixed": "#403f43",
+                        "primary-fixed": "#e2dfff",
+                        "surface-container-low": "#f3f2ff",
+                        "secondary-fixed-dim": "#d7d3d8",
+                        "on-primary-fixed": "#2a13c5",
+                        "tertiary": "#575e78",
+                        "surface": "#fbf8ff",
+                        "on-primary-fixed-variant": "#4a40e0",
+                        "error-container": "#ff8b9a",
+                        "on-surface-variant": "#5b5e74",
+                        "outline-variant": "#aeb0c9",
+                        "on-secondary-fixed-variant": "#5c5b5f",
+                        "surface-tint": "#4d44e3",
+                        "tertiary-fixed-dim": "#c4cbe9",
+                        "on-tertiary-fixed": "#323951",
+                        "surface-variant": "#dfe1fb",
+                        "secondary-fixed": "#e5e1e6",
+                        "on-secondary": "#fcf8fc",
+                        "inverse-primary": "#8582ff",
+                        "primary": "#4d44e3",
+                        "primary-dim": "#4034d7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Newsreader"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Newsreader', serif;
+            color: #2e3145;
+        }
+        .ui-font {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background">
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-screen w-16 md:w-20 bg-[#f3f2ff] dark:bg-zinc-900 flex flex-col items-center py-8 z-50">
+<div class="mb-12">
+<span class="material-symbols-outlined text-primary text-3xl">school</span>
+</div>
+<nav class="flex flex-col gap-8 flex-1">
+<a class="text-zinc-400 dark:text-zinc-600 hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+<span class="text-[10px] font-medium ui-font">Practice</span>
+</a>
+<a class="text-zinc-400 dark:text-zinc-600 hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="text-[10px] font-medium ui-font">Test</span>
+</a>
+<a class="text-[#4d44e3] dark:text-indigo-400 hover:text-[#4d44e3] transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<span class="text-[10px] font-medium ui-font">Progress</span>
+</a>
+</nav>
+<div class="mt-auto">
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant/20" data-alt="minimalist professional headshot of a student in academic setting with soft natural lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCasXi54vvP28ImgYC1lpTtX6Au9wB6uc2dxVmANxLI4CL4LfeRJKEZIy7SXQ-_hXzUHST1LZYbGvcvNv_ilMjh2ubB8Nx5SNWlA6GVgFzdao37U5JCgV5wfvXUz1sQtjY-nVszRpmeXqcqgk_zbDXn81t6wg6NMaPgJIx-TZuNGWs9_nV00eGWXfObUkrRPCfpiFmpcVkPkKeJjVLui9RrHPk2FUrHEplheQLNDPc0WF-3kJF46wcUGEIYBJ6y-1GIAIoeA1B2PgFY"/>
+</div>
+</aside>
+<!-- TopNavBar Component -->
+<header class="fixed top-0 right-0 left-16 md:left-20 h-16 bg-[#fbf8ff]/80 dark:bg-zinc-950/80 backdrop-blur-md z-40 flex justify-between items-center px-8 md:px-12">
+<div class="flex items-center gap-4">
+<h1 class="text-lg font-bold text-zinc-900 dark:text-zinc-50 ui-font tracking-tight">Academic Monolith</h1>
+<span class="h-4 w-px bg-outline-variant/30"></span>
+<span class="text-sm text-on-surface-variant ui-font font-medium">Mathematics</span>
+</div>
+<div class="hidden md:flex gap-8 items-center h-full">
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-opacity opacity-80 hover:opacity-100 ui-font text-sm font-semibold" href="#">Practice</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-opacity opacity-80 hover:opacity-100 ui-font text-sm font-semibold" href="#">Test</a>
+<a class="text-[#4d44e3] border-b-2 border-[#4d44e3] pb-1 transition-opacity ui-font text-sm font-semibold" href="#">Review</a>
+</div>
+<div class="flex gap-4 items-center">
+<button class="text-zinc-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="text-zinc-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pl-16 md:pl-20 pt-16 min-h-screen">
+<div class="max-w-[800px] mx-auto py-12 px-6">
+<!-- Hero Header Section -->
+<section class="mb-16">
+<h2 class="text-4xl md:text-5xl font-medium mb-4 text-on-surface tracking-tight">Academic Performance</h2>
+<p class="text-lg text-on-surface-variant italic font-light opacity-80">"Mathematics is the music of reason." — James Joseph Sylvester</p>
+</section>
+<!-- Stats Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+<div class="bg-surface-container-low p-8 rounded-xl flex flex-col gap-2">
+<span class="ui-font text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Accuracy</span>
+<div class="flex items-baseline gap-1">
+<span class="text-4xl font-semibold ui-font text-on-surface">92</span>
+<span class="text-xl text-primary font-medium ui-font">%</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl flex flex-col gap-2">
+<span class="ui-font text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Solved</span>
+<div class="flex items-baseline gap-1">
+<span class="text-4xl font-semibold ui-font text-on-surface">1,240</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl flex flex-col gap-2">
+<span class="ui-font text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Streak</span>
+<div class="flex items-baseline gap-1">
+<span class="text-4xl font-semibold ui-font text-on-surface">5</span>
+<span class="text-sm text-on-surface-variant ui-font ml-2">Days</span>
+</div>
+</div>
+</section>
+<!-- Mastery per Concept Section -->
+<section class="mb-16">
+<div class="flex justify-between items-end mb-8">
+<h3 class="text-2xl font-medium text-on-surface">Mastery per Concept</h3>
+<button class="ui-font text-sm text-primary font-semibold hover:underline decoration-2 underline-offset-4">Full Syllabus View</button>
+</div>
+<div class="space-y-10">
+<!-- Concept 1 -->
+<div class="group">
+<div class="flex justify-between items-center mb-3">
+<h4 class="text-lg font-medium text-on-surface">Algebraic Foundations</h4>
+<span class="ui-font text-sm font-bold text-primary">85%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 85%"></div>
+</div>
+<p class="mt-3 text-sm text-on-surface-variant ui-font font-normal opacity-70">Excelling in Quadratic Equations and Polynomial Identities.</p>
+</div>
+<!-- Concept 2 -->
+<div class="group">
+<div class="flex justify-between items-center mb-3">
+<h4 class="text-lg font-medium text-on-surface">Calculus &amp; Limits</h4>
+<span class="ui-font text-sm font-bold text-primary">60%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 60%"></div>
+</div>
+<p class="mt-3 text-sm text-on-surface-variant ui-font font-normal opacity-70">Focus recommended on Integration by Parts.</p>
+</div>
+<!-- Concept 3 -->
+<div class="group">
+<div class="flex justify-between items-center mb-3">
+<h4 class="text-lg font-medium text-on-surface">Trigonometric Functions</h4>
+<span class="ui-font text-sm font-bold text-primary">94%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 94%"></div>
+</div>
+<p class="mt-3 text-sm text-on-surface-variant ui-font font-normal opacity-70">Mastery achieved across all primary identities.</p>
+</div>
+</div>
+</section>
+<!-- Weak Areas (Editorial Note Style) -->
+<section class="mb-16">
+<div class="bg-surface-container-low p-10 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5">
+<span class="material-symbols-outlined text-8xl">psychology</span>
+</div>
+<div class="relative z-10">
+<h3 class="text-xl font-medium text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="bolt">bolt</span>
+                            Focus Areas
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<h5 class="ui-font text-xs font-bold uppercase text-primary tracking-widest mb-3">Critical Deficit</h5>
+<p class="text-lg leading-relaxed text-on-surface">Implicit Differentiation</p>
+<p class="text-sm text-on-surface-variant ui-font mt-2 italic">Requires practice on chain rule applications within non-linear functions.</p>
+</div>
+<div>
+<h5 class="ui-font text-xs font-bold uppercase text-primary tracking-widest mb-3">Technical Error Path</h5>
+<p class="text-lg leading-relaxed text-on-surface">Logarithmic Transformation</p>
+<p class="text-sm text-on-surface-variant ui-font mt-2 italic">Frequent sign errors observed in base-10 conversion steps.</p>
+</div>
+</div>
+<div class="mt-10">
+<button class="bg-primary text-on-primary px-6 py-3 rounded-lg ui-font font-semibold text-sm hover:bg-primary-dim transition-colors">Start Corrective Module</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Activity Heatmap / Recent Trends -->
+<section>
+<h3 class="text-2xl font-medium text-on-surface mb-8">Weekly Engagement</h3>
+<div class="flex items-end justify-between h-48 px-4 border-b border-outline-variant/10">
+<div class="flex flex-col items-center gap-4 w-full">
+<div class="w-2 md:w-3 bg-surface-container-high rounded-t-full h-24"></div>
+<span class="ui-font text-[10px] text-on-surface-variant font-medium">MON</span>
+</div>
+<div class="flex flex-col items-center gap-4 w-full">
+<div class="w-2 md:w-3 bg-primary rounded-t-full h-40"></div>
+<span class="ui-font text-[10px] text-on-surface-variant font-medium">TUE</span>
+</div>
+<div class="flex flex-col items-center gap-4 w-full">
+<div class="w-2 md:w-3 bg-surface-container-high rounded-t-full h-16"></div>
+<span class="ui-font text-[10px] text-on-surface-variant font-medium">WED</span>
+</div>
+<div class="flex flex-col items-center gap-4 w-full">
+<div class="w-2 md:w-3 bg-primary-container rounded-t-full h-32"></div>
+<span class="ui-font text-[10px] text-on-surface-variant font-medium">THU</span>
+</div>
+<div class="flex flex-col items-center gap-4 w-full">
+<div class="w-2 md:w-3 bg-primary rounded-t-full h-44"></div>
+<span class="ui-font text-[10px] text-on-surface-variant font-medium">FRI</span>
+</div>
+<div class="flex flex-col items-center gap-4 w-full">
+<div class="w-2 md:w-3 bg-surface-container-high rounded-t-full h-8"></div>
+<span class="ui-font text-[10px] text-on-surface-variant font-medium">SAT</span>
+</div>
+<div class="flex flex-col items-center gap-4 w-full">
+<div class="w-2 md:w-3 bg-surface-container-high rounded-t-full h-12"></div>
+<span class="ui-font text-[10px] text-on-surface-variant font-medium">SUN</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer for contextual help -->
+<footer class="pl-16 md:pl-20 py-12">
+<div class="max-w-[800px] mx-auto px-6 flex justify-between items-center text-on-surface-variant opacity-40">
+<span class="ui-font text-xs font-medium italic">Academic Monolith v4.2.0</span>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-sm">auto_graph</span>
+<span class="material-symbols-outlined text-sm">history_edu</span>
+</div>
+</div>
+</footer>
+</body></html>

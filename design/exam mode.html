@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Math Test Mode - Academic Monolith</title>
+<!-- Google Fonts: Inter for UI, Newsreader for Content -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#fff7f7",
+                    "primary-container": "#e2dfff",
+                    "surface-container": "#ececff",
+                    "inverse-on-surface": "#9c9ca6",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#d5d8f6",
+                    "on-primary-container": "#3f33d6",
+                    "surface-container-high": "#e5e7fd",
+                    "tertiary-container": "#d2d9f8",
+                    "surface-bright": "#fbf8ff",
+                    "error": "#9e3f4e",
+                    "on-tertiary": "#faf8ff",
+                    "secondary-container": "#e5e1e6",
+                    "error-dim": "#4f0116",
+                    "on-secondary-container": "#525155",
+                    "primary-fixed-dim": "#d2d0ff",
+                    "on-background": "#2e3145",
+                    "outline": "#767990",
+                    "secondary": "#605e62",
+                    "on-surface": "#2e3145",
+                    "tertiary-fixed": "#d2d9f8",
+                    "tertiary-dim": "#4b526c",
+                    "inverse-surface": "#0d0e15",
+                    "on-tertiary-container": "#444c65",
+                    "on-error-container": "#782232",
+                    "surface-container-highest": "#dfe1fb",
+                    "background": "#fbf8ff",
+                    "on-tertiary-fixed-variant": "#4e556f",
+                    "secondary-dim": "#545256",
+                    "on-primary": "#faf6ff",
+                    "on-secondary-fixed": "#403f43",
+                    "primary-fixed": "#e2dfff",
+                    "surface-container-low": "#f3f2ff",
+                    "secondary-fixed-dim": "#d7d3d8",
+                    "on-primary-fixed": "#2a13c5",
+                    "tertiary": "#575e78",
+                    "surface": "#fbf8ff",
+                    "on-primary-fixed-variant": "#4a40e0",
+                    "error-container": "#ff8b9a",
+                    "on-surface-variant": "#5b5e74",
+                    "outline-variant": "#aeb0c9",
+                    "on-secondary-fixed-variant": "#5c5b5f",
+                    "surface-tint": "#4d44e3",
+                    "tertiary-fixed-dim": "#c4cbe9",
+                    "on-tertiary-fixed": "#323951",
+                    "surface-variant": "#dfe1fb",
+                    "secondary-fixed": "#e5e1e6",
+                    "on-secondary": "#fcf8fc",
+                    "inverse-primary": "#8582ff",
+                    "primary": "#4d44e3",
+                    "primary-dim": "#4034d7"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Newsreader"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .math-equation {
+            font-family: 'Newsreader', serif;
+            font-style: italic;
+        }
+        body {
+            background-color: #fbf8ff;
+            color: #2e3145;
+        }
+    </style>
+</head>
+<body class="font-label">
+<!-- SideNavBar (Updated to match SCREEN_11) -->
+<aside class="fixed left-0 top-0 h-screen w-16 md:w-20 bg-[#f3f2ff] dark:bg-zinc-900 flex flex-col items-center py-8 z-50 transition-all duration-200">
+<div class="mb-12">
+<span class="material-symbols-outlined text-primary text-3xl">school</span>
+</div>
+<nav class="flex flex-col gap-8 flex-1">
+<a class="text-zinc-400 dark:text-zinc-600 hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="text-[10px] font-medium font-headline">Practice</span>
+</a>
+<!-- Active State: Test -->
+<a class="text-[#4d44e3] dark:text-indigo-400 scale-95 duration-200 flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment_turned_in</span>
+<span class="text-[10px] font-medium font-headline">Test</span>
+</a>
+<a class="text-zinc-400 dark:text-zinc-600 hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1 group" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="text-[10px] font-medium font-headline">Progress</span>
+</a>
+</nav>
+<div class="mt-auto">
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant/20 grayscale hover:grayscale-0 transition-all cursor-pointer" data-alt="minimalist professional headshot of a student in academic setting with soft natural lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCasXi54vvP28ImgYC1lpTtX6Au9wB6uc2dxVmANxLI4CL4LfeRJKEZIy7SXQ-_hXzUHST1LZYbGvcvNv_ilMjh2ubB8Nx5SNWlA6GVgFzdao37U5JCgV5wfvXUz1sQtjY-nVszRpmeXqcqgk_zbDXn81t6wg6NMaPgJIx-TZuNGWs9_nV00eGWXfObUkrRPCfpiFmpcVkPkKeJjVLui9RrHPk2FUrHEplheQLNDPc0WF-3kJF46wcUGEIYBJ6y-1GIAIoeA1B2PgFY"/>
+</div>
+</aside>
+<!-- TopNavBar (Updated to match SCREEN_11) -->
+<header class="fixed top-0 right-0 left-16 md:left-20 h-16 bg-[#fbf8ff]/80 dark:bg-zinc-950/80 backdrop-blur-md z-40 flex justify-between items-center px-8 md:px-12">
+<div class="flex items-center gap-4">
+<h1 class="text-lg font-bold text-zinc-900 dark:text-zinc-50 font-headline tracking-tight">Academic Monolith</h1>
+<span class="h-4 w-px bg-outline-variant/30"></span>
+<span class="text-sm text-on-surface-variant font-headline font-medium">Test Mode</span>
+</div>
+<div class="hidden md:flex gap-8 items-center h-full">
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-opacity opacity-80 hover:opacity-100 font-headline text-sm font-semibold" href="#">Practice</a>
+<!-- Active State: Test -->
+<a class="text-[#4d44e3] border-b-2 border-[#4d44e3] pb-1 transition-opacity font-headline text-sm font-semibold" href="#">Test</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-opacity opacity-80 hover:opacity-100 font-headline text-sm font-semibold" href="#">Review</a>
+</div>
+<div class="flex gap-4 items-center">
+<button class="text-zinc-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-zinc-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<!-- Subtle Progress Bar (Inherited from original context) -->
+<div class="absolute bottom-0 left-0 w-full h-[2px] bg-surface-container">
+<div class="h-full bg-primary w-[30%] transition-all duration-700"></div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="ml-16 md:ml-20 pt-24 pb-12 px-6">
+<div class="max-w-[800px] mx-auto">
+<!-- Evaluation Context Bar -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<h1 class="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">Calculus I: Differentiation</h1>
+<p class="font-body text-lg text-on-surface-variant italic">Section 4.2: The Chain Rule Evaluation</p>
+</div>
+<div class="text-right">
+<div class="flex items-center gap-2 text-primary font-bold font-headline mb-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="tracking-widest">14:22 REMAINING</span>
+</div>
+<div class="text-on-surface-variant text-sm font-medium tracking-tight">
+                        Question 3 / 10
+                    </div>
+</div>
+</div>
+<!-- Problem Card (Molded Design) -->
+<section class="bg-surface-container-low p-10 md:p-14 rounded-xl mb-10 transition-all">
+<div class="mb-12">
+<span class="text-xs font-bold tracking-widest text-outline-variant uppercase mb-4 block">Problem Statement</span>
+<div class="font-body text-2xl md:text-3xl leading-relaxed text-on-surface">
+                        Find the derivative of the following composite function using the chain rule method:
+                    </div>
+</div>
+<!-- Large Math Expression -->
+<div class="flex justify-center py-12 mb-12 bg-surface-container rounded-lg">
+<div class="math-equation text-4xl md:text-5xl text-on-surface select-none">
+                        f(x) = sin(x<sup>2</sup> + 4x - 1)
+                    </div>
+</div>
+<div class="space-y-8">
+<div class="relative">
+<label class="text-xs font-bold tracking-widest text-outline-variant uppercase mb-2 block" for="answer">Your Solution</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-primary text-2xl font-body py-4 placeholder:opacity-30 placeholder:italic transition-all" id="answer" placeholder="Enter f'(x)..." type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">info</span>
+<span class="text-sm text-on-surface-variant">Evaluation mode: Hints and step-checks are disabled for this session.</span>
+</div>
+<div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">calculate</span>
+<span class="text-sm text-on-surface-variant">Precision: Provide the exact symbolic expression where possible.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Actions -->
+<div class="flex items-center justify-between">
+<button class="px-6 py-3 font-headline font-semibold text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2 group">
+<span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    Previous
+                </button>
+<div class="flex items-center gap-4">
+<button class="px-8 py-4 bg-surface-container-high text-on-primary-container font-headline font-bold tracking-tight rounded-md hover:bg-surface-container-highest transition-colors">
+                        Mark for Review
+                    </button>
+<button class="px-10 py-4 bg-primary text-on-primary font-headline font-bold tracking-tight rounded-md shadow-sm hover:bg-primary-dim transition-all active:scale-[0.98]">
+                        Submit Answer
+                    </button>
+</div>
+</div>
+<!-- Breadcrumb / Status Dots -->
+<div class="mt-16 flex justify-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container ring-2 ring-primary ring-offset-4 ring-offset-background"></div>
+<div class="w-2 h-2 rounded-full bg-surface-container-high"></div>
+<div class="w-2 h-2 rounded-full bg-surface-container-high"></div>
+<div class="w-2 h-2 rounded-full bg-surface-container-high"></div>
+<div class="w-2 h-2 rounded-full bg-surface-container-high"></div>
+<div class="w-2 h-2 rounded-full bg-surface-container-high"></div>
+<div class="w-2 h-2 rounded-full bg-surface-container-high"></div>
+<div class="w-2 h-2 rounded-full bg-surface-container-high"></div>
+</div>
+</div>
+</main>
+<!-- Contextual Aesthetic Overlay (Editorial Side-note style) -->
+<div class="fixed bottom-12 right-12 max-w-xs hidden xl:block">
+<div class="p-6 bg-surface-container-low border-l-4 border-primary rounded-r-lg">
+<h4 class="font-headline font-bold text-xs uppercase tracking-widest text-primary mb-2">Note for Evaluation</h4>
+<p class="font-body text-sm leading-relaxed text-on-surface-variant italic">
+                "Mathematics is not about numbers, equations, computations, or algorithms: it is about understanding." — William Paul Thurston
+            </p>
+</div>
+</div>
+</body></html>

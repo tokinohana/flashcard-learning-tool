@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Practice | Academic Monolith</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#fff7f7",
+                        "primary-container": "#e2dfff",
+                        "surface-container": "#ececff",
+                        "inverse-on-surface": "#9c9ca6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d5d8f6",
+                        "on-primary-container": "#3f33d6",
+                        "surface-container-high": "#e5e7fd",
+                        "tertiary-container": "#d2d9f8",
+                        "surface-bright": "#fbf8ff",
+                        "error": "#9e3f4e",
+                        "on-tertiary": "#faf8ff",
+                        "secondary-container": "#e5e1e6",
+                        "error-dim": "#4f0116",
+                        "on-secondary-container": "#525155",
+                        "primary-fixed-dim": "#d2d0ff",
+                        "on-background": "#2e3145",
+                        "outline": "#767990",
+                        "secondary": "#605e62",
+                        "on-surface": "#2e3145",
+                        "tertiary-fixed": "#d2d9f8",
+                        "tertiary-dim": "#4b526c",
+                        "inverse-surface": "#0d0e15",
+                        "on-tertiary-container": "#444c65",
+                        "on-error-container": "#782232",
+                        "surface-container-highest": "#dfe1fb",
+                        "background": "#fbf8ff",
+                        "on-tertiary-fixed-variant": "#4e556f",
+                        "secondary-dim": "#545256",
+                        "on-primary": "#faf6ff",
+                        "on-secondary-fixed": "#403f43",
+                        "primary-fixed": "#e2dfff",
+                        "surface-container-low": "#f3f2ff",
+                        "secondary-fixed-dim": "#d7d3d8",
+                        "on-primary-fixed": "#2a13c5",
+                        "tertiary": "#575e78",
+                        "surface": "#fbf8ff",
+                        "on-primary-fixed-variant": "#4a40e0",
+                        "error-container": "#ff8b9a",
+                        "on-surface-variant": "#5b5e74",
+                        "outline-variant": "#aeb0c9",
+                        "on-secondary-fixed-variant": "#5c5b5f",
+                        "surface-tint": "#4d44e3",
+                        "tertiary-fixed-dim": "#c4cbe9",
+                        "on-tertiary-fixed": "#323951",
+                        "surface-variant": "#dfe1fb",
+                        "secondary-fixed": "#e5e1e6",
+                        "on-secondary": "#fcf8fc",
+                        "inverse-primary": "#8582ff",
+                        "primary": "#4d44e3",
+                        "primary-dim": "#4034d7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Newsreader"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fbf8ff;
+            color: #2e3145;
+        }
+        .math-text {
+            font-family: 'Newsreader', serif;
+            font-feature-settings: "onum", "pnum";
+        }
+        .ui-font {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="font-label antialiased">
+<!-- SideNavBar Component (Updated from SCREEN_11) -->
+<aside class="fixed left-0 top-0 h-screen w-16 md:w-20 bg-[#f3f2ff] dark:bg-zinc-900 flex flex-col items-center py-8 z-50">
+<div class="mb-12">
+<span class="material-symbols-outlined text-primary text-3xl">school</span>
+</div>
+<nav class="flex flex-col gap-8 flex-1">
+<!-- Active: Practice -->
+<a class="text-[#4d44e3] dark:text-indigo-400 hover:text-[#4d44e3] transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+<span class="text-[10px] font-medium ui-font">Practice</span>
+</a>
+<a class="text-zinc-400 dark:text-zinc-600 hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="text-[10px] font-medium ui-font">Test</span>
+</a>
+<a class="text-zinc-400 dark:text-zinc-600 hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="text-[10px] font-medium ui-font">Progress</span>
+</a>
+</nav>
+<div class="mt-auto">
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant/20 grayscale hover:grayscale-0 transition-all cursor-pointer" data-alt="minimalist professional headshot of a student in academic setting with soft natural lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCasXi54vvP28ImgYC1lpTtX6Au9wB6uc2dxVmANxLI4CL4LfeRJKEZIy7SXQ-_hXzUHST1LZYbGvcvNv_ilMjh2ubB8Nx5SNWlA6GVgFzdao37U5JCgV5wfvXUz1sQtjY-nVszRpmeXqcqgk_zbDXn81t6wg6NMaPgJIx-TZuNGWs9_nV00eGWXfObUkrRPCfpiFmpcVkPkKeJjVLui9RrHPk2FUrHEplheQLNDPc0WF-3kJF46wcUGEIYBJ6y-1GIAIoeA1B2PgFY"/>
+</div>
+</aside>
+<!-- TopNavBar Component (Updated from SCREEN_11) -->
+<header class="fixed top-0 right-0 left-16 md:left-20 h-16 bg-[#fbf8ff]/80 dark:bg-zinc-950/80 backdrop-blur-md z-40 flex justify-between items-center px-8 md:px-12">
+<div class="flex items-center gap-4">
+<h1 class="text-lg font-bold text-zinc-900 dark:text-zinc-50 ui-font tracking-tight">Academic Monolith</h1>
+<span class="h-4 w-px bg-outline-variant/30"></span>
+<span class="text-sm text-on-surface-variant ui-font font-medium">Practice Mode</span>
+</div>
+<div class="hidden md:flex gap-8 items-center h-full">
+<a class="text-[#4d44e3] border-b-2 border-[#4d44e3] pb-1 transition-opacity ui-font text-sm font-semibold" href="#">Practice</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-opacity opacity-80 hover:opacity-100 ui-font text-sm font-semibold" href="#">Test</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-opacity opacity-80 hover:opacity-100 ui-font text-sm font-semibold" href="#">Review</a>
+</div>
+<div class="flex gap-4 items-center">
+<button class="text-zinc-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="text-zinc-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<!-- Subtle Progress Bar from original design -->
+<div class="absolute bottom-0 left-0 w-full h-[2px] bg-surface-container">
+<div class="h-full bg-primary w-[33%] transition-all duration-700"></div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-16 md:ml-20 pt-24 pb-12 px-6">
+<div class="max-w-[800px] mx-auto">
+<!-- Session Meta Info -->
+<div class="flex justify-between items-center mb-8">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 font-headline">Calculus II</span>
+<span class="text-xs text-outline-variant">•</span>
+<span class="text-xs font-medium text-on-surface-variant font-headline">Step 4 of 12</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant/80">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-xs font-medium font-headline tabular-nums">14:02</span>
+</div>
+</div>
+<!-- Problem Card (The Focus Component) -->
+<section class="bg-surface-container-low p-10 md:p-14 rounded-lg">
+<div class="mb-12">
+<h2 class="text-xs font-bold text-primary mb-6 uppercase tracking-widest font-headline">Problem Statement</h2>
+<div class="math-text text-3xl md:text-4xl leading-relaxed text-on-surface italic">
+                        Evaluate the definite integral of the function 
+                        <span class="not-italic font-medium">f(x) = 3x² - 2x + 5</span> 
+                        over the interval <span class="not-italic font-medium">[1, 3]</span>.
+                    </div>
+<div class="mt-10 flex justify-center">
+<!-- Simulated LaTeX Rendering -->
+<div class="math-text text-5xl font-light text-on-surface/90 py-8 px-12 border-l-2 border-primary/20 bg-surface/40">
+                            ∫<sub class="text-xl">1</sub><sup class="text-xl">3</sup> (3x² - 2x + 5) dx
+                        </div>
+</div>
+</div>
+<!-- Interaction Zone -->
+<div class="max-w-md mx-auto space-y-8">
+<div class="relative group">
+<label class="block text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter mb-1 font-headline" for="math-answer">Numerical Answer</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-4 text-3xl font-headline font-light focus:ring-0 focus:border-primary transition-all placeholder:text-outline-variant/30 text-center" id="math-answer" placeholder="0.00" type="text"/>
+<div class="absolute right-0 bottom-4 text-xs font-medium text-outline-variant/60 font-headline">units</div>
+</div>
+<div class="flex flex-col gap-4">
+<button class="w-full bg-primary hover:bg-primary-dim text-on-primary py-4 px-6 rounded-md font-headline font-semibold text-sm tracking-wide transition-all shadow-sm active:scale-[0.98]">
+                            Submit Answer
+                        </button>
+<div class="flex justify-between items-center px-2">
+<button class="text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1.5 group">
+<span class="material-symbols-outlined text-sm group-hover:fill-current">lightbulb</span>
+                                Show Hint
+                            </button>
+<button class="text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">flag</span>
+                                Report Issue
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Feedback State (Collapsed/Explanation) -->
+<div class="mt-8 space-y-4">
+<!-- Example of a Correct State -->
+<div class="bg-surface-container-high/50 p-6 rounded-lg border-l-4 border-primary">
+<div class="flex items-center justify-between cursor-pointer group">
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<span class="font-headline font-bold text-sm text-primary tracking-tight">Correct: Result is 28</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">expand_more</span>
+</div>
+<div class="mt-6 pt-6 border-t border-outline-variant/10">
+<h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4 font-headline">Step-by-step Solution</h4>
+<div class="math-text text-lg text-on-surface space-y-4 leading-relaxed">
+<p>1. Find the antiderivative of <span class="italic">f(x)</span>:</p>
+<div class="pl-4 border-l border-outline-variant/20 italic">
+                                F(x) = x³ - x² + 5x + C
+                            </div>
+<p>2. Apply the Fundamental Theorem of Calculus:</p>
+<div class="pl-4 border-l border-outline-variant/20 italic">
+                                [3³ - 3² + 5(3)] - [1³ - 1² + 5(1)]
+                            </div>
+<p>3. Simplify the expressions:</p>
+<div class="pl-4 border-l border-outline-variant/20 italic">
+                                (27 - 9 + 15) - (1 - 1 + 5) = 33 - 5 = 28
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Contextual Navigation -->
+<div class="mt-16 flex justify-between items-center text-on-surface-variant">
+<button class="flex items-center gap-2 hover:text-primary transition-colors text-sm font-semibold group">
+<span class="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    Previous Problem
+                </button>
+<button class="flex items-center gap-2 hover:text-primary transition-colors text-sm font-semibold group">
+                    Next Problem
+                    <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Sidebar Detail for Focus -->
+<div class="fixed right-8 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-6 text-on-surface-variant/40">
+<div class="flex flex-col items-center gap-1">
+<span class="text-[10px] font-bold font-headline uppercase rotate-90 mb-4">Focus Mode</span>
+<div class="w-px h-12 bg-outline-variant/20"></div>
+</div>
+<div class="flex flex-col gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">fullscreen</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">dark_mode</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">calculate</span>
+</div>
+</div>
+</body></html>

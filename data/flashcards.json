@@ -1,0 +1,14 @@
+[
+    {
+        "id": "q1",
+        "topic": "Calculus II",
+        "question": "Evaluate the definite integral of the function f(x) = 3x² - 2x + 5 over the interval [1, 3].",
+        "latex": "∫\\sub{1}\\sup{3} (3x² - 2x + 5) dx",
+        "answer": "28",
+        "explanation": [
+            "1. Find the antiderivative of f(x): F(x) = x³ - x² + 5x + C",
+            "2. Apply the Fundamental Theorem of Calculus: [3³ - 3² + 5(3)] - [1³ - 1² + 5(1)]",
+            "3. Simplify: (27 - 9 + 15) - (1 - 1 + 5) = 33 - 5 = 28"
+        ]
+    }
+]

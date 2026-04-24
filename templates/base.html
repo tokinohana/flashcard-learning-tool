@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{% block title %}Academic Monolith{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#fff7f7",
+                        "primary-container": "#e2dfff",
+                        "surface-container": "#ececff",
+                        "inverse-on-surface": "#9c9ca6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d5d8f6",
+                        "on-primary-container": "#3f33d6",
+                        "surface-container-high": "#e5e7fd",
+                        "tertiary-container": "#d2d9f8",
+                        "surface-bright": "#fbf8ff",
+                        "error": "#9e3f4e",
+                        "on-tertiary": "#faf8ff",
+                        "secondary-container": "#e5e1e6",
+                        "error-dim": "#4f0116",
+                        "on-secondary-container": "#525155",
+                        "primary-fixed-dim": "#d2d0ff",
+                        "on-background": "#2e3145",
+                        "outline": "#767990",
+                        "secondary": "#605e62",
+                        "on-surface": "#2e3145",
+                        "tertiary-fixed": "#d2d9f8",
+                        "tertiary-dim": "#4b526c",
+                        "inverse-surface": "#0d0e15",
+                        "on-tertiary-container": "#444c65",
+                        "on-error-container": "#782232",
+                        "surface-container-highest": "#dfe1fb",
+                        "background": "#fbf8ff",
+                        "on-tertiary-fixed-variant": "#4e556f",
+                        "secondary-dim": "#545256",
+                        "on-primary": "#faf6ff",
+                        "on-secondary-fixed": "#403f43",
+                        "primary-fixed": "#e2dfff",
+                        "surface-container-low": "#f3f2ff",
+                        "secondary-fixed-dim": "#d7d3d8",
+                        "on-primary-fixed": "#2a13c5",
+                        "tertiary": "#575e78",
+                        "surface": "#fbf8ff",
+                        "on-primary-fixed-variant": "#4a40e0",
+                        "error-container": "#ff8b9a",
+                        "on-surface-variant": "#5b5e74",
+                        "outline-variant": "#aeb0c9",
+                        "on-secondary-fixed-variant": "#5c5b5f",
+                        "surface-tint": "#4d44e3",
+                        "tertiary-fixed-dim": "#c4cbe9",
+                        "on-tertiary-fixed": "#323951",
+                        "surface-variant": "#dfe1fb",
+                        "secondary-fixed": "#e5e1e6",
+                        "on-secondary": "#fcf8fc",
+                        "inverse-primary": "#8582ff",
+                        "primary": "#4d44e3",
+                        "primary-dim": "#4034d7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Newsreader"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fbf8ff;
+            color: #2e3145;
+        }
+        .math-text {
+            font-family: 'Newsreader', serif;
+            font-feature-settings: "onum", "pnum";
+        }
+        .ui-font {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="font-label antialiased">
+    {% include 'components/sidebar.html' %}
+    {% include 'components/header.html' %}
+
+    <main class="ml-16 md:ml-20 pt-24 pb-12 px-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

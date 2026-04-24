@@ -1,0 +1,26 @@
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-screen w-16 md:w-20 bg-[#f3f2ff] dark:bg-zinc-900 flex flex-col items-center py-8 z-50">
+    <div class="mb-12">
+        <span class="material-symbols-outlined text-primary text-3xl">school</span>
+    </div>
+    <nav class="flex flex-col gap-8 flex-1">
+        <!-- Practice -->
+        <a class="{% if active_page == 'practice' %}text-[#4d44e3] dark:text-indigo-400{% else %}text-zinc-400 dark:text-zinc-600{% endif %} hover:text-[#4d44e3] transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="{{ url_for('practice') }}">
+            <span class="material-symbols-outlined" data-icon="edit_note" {% if active_page == 'practice' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>edit_note</span>
+            <span class="text-[10px] font-medium ui-font">Practice</span>
+        </a>
+        <!-- Test -->
+        <a class="{% if active_page == 'exam' %}text-[#4d44e3] dark:text-indigo-400{% else %}text-zinc-400 dark:text-zinc-600{% endif %} hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="{{ url_for('exam') }}">
+            <span class="material-symbols-outlined" data-icon="assignment_turned_in" {% if active_page == 'exam' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>assignment_turned_in</span>
+            <span class="text-[10px] font-medium ui-font">Test</span>
+        </a>
+        <!-- Progress -->
+        <a class="{% if active_page == 'dashboard' %}text-[#4d44e3] dark:text-indigo-400{% else %}text-zinc-400 dark:text-zinc-600{% endif %} hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="{{ url_for('dashboard') }}">
+            <span class="material-symbols-outlined" data-icon="trending_up" {% if active_page == 'dashboard' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>trending_up</span>
+            <span class="text-[10px] font-medium ui-font">Progress</span>
+        </a>
+    </nav>
+    <div class="mt-auto">
+        <img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant/20 grayscale hover:grayscale-0 transition-all cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCasXi54vvP28ImgYC1lpTtX6Au9wB6uc2dxVmANxLI4CL4LfeRJKEZIy7SXQ-_hXzUHST1LZYbGvcvNv_ilMjh2ubB8Nx5SNWlA6GVgFzdao37U5JCgV5wfvXUz1sQtjY-nVszRpmeXqcqgk_zbDXn81t6wg6NMaPgJIx-TZuNGWs9_nV00eGWXfObUkrRPCfpiFmpcVkPkKeJjVLui9RrHPk2FUrHEplheQLNDPc0WF-3kJF46wcUGEIYBJ6y-1GIAIoeA1B2PgFY"/>
+    </div>
+</aside>

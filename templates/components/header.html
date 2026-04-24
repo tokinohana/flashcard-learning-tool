@@ -1,0 +1,27 @@
+<!-- TopNavBar Component -->
+<header class="fixed top-0 right-0 left-16 md:left-20 h-16 bg-[#fbf8ff]/80 dark:bg-zinc-950/80 backdrop-blur-md z-40 flex justify-between items-center px-8 md:px-12">
+    <div class="flex items-center gap-4">
+        <h1 class="text-lg font-bold text-zinc-900 dark:text-zinc-50 ui-font tracking-tight">Academic Monolith</h1>
+        <span class="h-4 w-px bg-outline-variant/30"></span>
+        <span class="text-sm text-on-surface-variant ui-font font-medium">{{ page_title }}</span>
+    </div>
+    <div class="hidden md:flex gap-8 items-center h-full">
+        <a class="{% if active_page == 'practice' %}text-[#4d44e3] border-b-2 border-[#4d44e3]{% else %}text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 opacity-80 hover:opacity-100{% endif %} pb-1 transition-opacity ui-font text-sm font-semibold" href="{{ url_for('practice') }}">Practice</a>
+        <a class="{% if active_page == 'exam' %}text-[#4d44e3] border-b-2 border-[#4d44e3]{% else %}text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 opacity-80 hover:opacity-100{% endif %} pb-1 transition-opacity ui-font text-sm font-semibold" href="{{ url_for('exam') }}">Test</a>
+        <a class="{% if active_page == 'dashboard' %}text-[#4d44e3] border-b-2 border-[#4d44e3]{% else %}text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 opacity-80 hover:opacity-100{% endif %} pb-1 transition-opacity ui-font text-sm font-semibold" href="{{ url_for('dashboard') }}">Review</a>
+    </div>
+    <div class="flex gap-4 items-center">
+        <button class="text-zinc-500 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+        </button>
+        <button class="text-zinc-500 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+        </button>
+    </div>
+    <!-- Subtle Progress Bar -->
+    {% if progress_percent %}
+    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-surface-container">
+        <div class="h-full bg-primary transition-all duration-700" style="width: {{ progress_percent }}%;"></div>
+    </div>
+    {% endif %}
+</header>

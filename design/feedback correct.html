@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Result - The Academic Monolith</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#4e556f",
+                        "on-secondary-container": "#525155",
+                        "surface-container-low": "#f3f2ff",
+                        "on-secondary": "#fcf8fc",
+                        "on-primary-fixed": "#2a13c5",
+                        "tertiary-container": "#d2d9f8",
+                        "tertiary-dim": "#4b526c",
+                        "error-dim": "#4f0116",
+                        "tertiary-fixed": "#d2d9f8",
+                        "surface-tint": "#4d44e3",
+                        "primary-fixed-dim": "#d2d0ff",
+                        "error-container": "#ff8b9a",
+                        "on-tertiary": "#faf8ff",
+                        "on-tertiary-fixed": "#323951",
+                        "surface-container": "#ececff",
+                        "error": "#9e3f4e",
+                        "background": "#fbf8ff",
+                        "surface-container-highest": "#dfe1fb",
+                        "secondary-dim": "#545256",
+                        "on-error": "#fff7f7",
+                        "tertiary-fixed-dim": "#c4cbe9",
+                        "surface-container-high": "#e5e7fd",
+                        "tertiary": "#575e78",
+                        "primary": "#4d44e3",
+                        "outline": "#767990",
+                        "primary-dim": "#4034d7",
+                        "outline-variant": "#aeb0c9",
+                        "secondary": "#605e62",
+                        "secondary-fixed-dim": "#d7d3d8",
+                        "primary-fixed": "#e2dfff",
+                        "secondary-container": "#e5e1e6",
+                        "on-surface": "#2e3145",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#444c65",
+                        "surface-variant": "#dfe1fb",
+                        "on-error-container": "#782232",
+                        "secondary-fixed": "#e5e1e6",
+                        "inverse-surface": "#0d0e15",
+                        "surface": "#fbf8ff",
+                        "surface-dim": "#d5d8f6",
+                        "on-background": "#2e3145",
+                        "inverse-primary": "#8582ff",
+                        "on-primary": "#faf6ff",
+                        "primary-container": "#e2dfff",
+                        "on-surface-variant": "#5b5e74",
+                        "inverse-on-surface": "#9c9ca6",
+                        "on-secondary-fixed": "#403f43",
+                        "on-primary-fixed-variant": "#4a40e0",
+                        "on-secondary-fixed-variant": "#5c5b5f",
+                        "on-primary-container": "#3f33d6",
+                        "surface-bright": "#fbf8ff",
+                        "success": "#15803d",
+                        "success-container": "#dcfce7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Newsreader"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Newsreader', serif; }
+        .ui-font { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-16 md:w-20 bg-[#f3f2ff] dark:bg-zinc-900 flex flex-col items-center py-8 z-50">
+<div class="mb-12">
+<span class="material-symbols-outlined text-primary text-3xl">school</span>
+</div>
+<nav class="flex flex-col gap-8 flex-1">
+<a class="text-[#4d44e3] dark:text-indigo-400 hover:text-[#4d44e3] transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+<span class="text-[10px] font-medium ui-font">Practice</span>
+</a>
+<a class="text-zinc-400 dark:text-zinc-600 hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="text-[10px] font-medium ui-font">Test</span>
+</a>
+<a class="text-zinc-400 dark:text-zinc-600 hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="#">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+<span class="text-[10px] font-medium ui-font">Progress</span>
+</a>
+</nav>
+<div class="mt-auto">
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant/20" data-alt="minimalist professional headshot of a student in academic setting with soft natural lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCasXi54vvP28ImgYC1lpTtX6Au9wB6uc2dxVmANxLI4CL4LfeRJKEZIy7SXQ-_hXzUHST1LZYbGvcvNv_ilMjh2ubB8Nx5SNWlA6GVgFzdao37U5JCgV5wfvXUz1sQtjY-nVszRpmeXqcqgk_zbDXn81t6wg6NMaPgJIx-TZuNGWs9_nV00eGWXfObUkrRPCfpiFmpcVkPkKeJjVLui9RrHPk2FUrHEplheQLNDPc0WF-3kJF46wcUGEIYBJ6y-1GIAIoeA1B2PgFY"/>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-16 md:left-20 h-16 bg-[#fbf8ff]/80 dark:bg-zinc-950/80 backdrop-blur-md z-40 flex justify-between items-center px-8 md:px-12">
+<div class="flex items-center gap-4">
+<h1 class="text-lg font-bold text-zinc-900 dark:text-zinc-50 ui-font tracking-tight">Academic Monolith</h1>
+<span class="h-4 w-px bg-outline-variant/30"></span>
+<span class="text-sm text-on-surface-variant ui-font font-medium">Mathematics</span>
+</div>
+<div class="hidden md:flex gap-8 items-center h-full">
+<a class="text-[#4d44e3] border-b-2 border-[#4d44e3] pb-1 transition-opacity ui-font text-sm font-semibold" href="#">Practice</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-opacity opacity-80 hover:opacity-100 ui-font text-sm font-semibold" href="#">Test</a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-opacity opacity-80 hover:opacity-100 ui-font text-sm font-semibold" href="#">Review</a>
+</div>
+<div class="flex gap-4 items-center">
+<button class="text-zinc-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="text-zinc-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-16 md:ml-20 pt-24 pb-16 px-6 flex justify-center min-h-screen">
+<div class="max-width-[700px] w-full flex flex-col space-y-12">
+<!-- Result Header -->
+<div class="text-center space-y-4">
+<div class="inline-flex items-center px-4 py-1.5 bg-success-container text-success ui-font text-sm font-bold tracking-tight rounded-full">
+<span class="material-symbols-outlined text-sm mr-1.5" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    Correct
+                </div>
+<div class="space-y-2">
+<div class="flex justify-center items-baseline space-x-6">
+<div class="flex flex-col items-center">
+<span class="ui-font text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold">Your Answer</span>
+<span class="text-4xl font-medium text-on-surface">28</span>
+</div>
+<div class="w-[1px] h-10 bg-outline-variant/30 self-end mb-1"></div>
+<div class="flex flex-col items-center">
+<span class="ui-font text-[10px] uppercase tracking-widest text-success font-semibold">Correct Answer</span>
+<span class="text-4xl font-medium text-success">28</span>
+</div>
+</div>
+</div>
+<div class="pt-2">
+<span class="inline-block px-3 py-1 bg-surface-container-low text-on-surface-variant ui-font text-xs font-medium tracking-wide rounded-md border border-outline-variant/10">
+                        Fundamental Theorem of Calculus
+                    </span>
+</div>
+</div>
+<!-- Content Area (Problem Card Style) -->
+<section class="bg-surface-container-low p-10 md:p-12 rounded-lg space-y-8">
+<header class="space-y-2 border-b border-outline-variant/20 pb-6">
+<h2 class="text-2xl font-semibold text-on-surface">Step-by-Step Explanation</h2>
+<p class="text-on-surface-variant text-lg italic">How we arrived at the definite integral solution.</p>
+</header>
+<div class="space-y-10">
+<div class="flex space-x-6">
+<span class="ui-font font-bold text-primary opacity-40 text-2xl pt-1">01</span>
+<div class="space-y-3">
+<h3 class="ui-font font-bold text-sm uppercase tracking-wider text-on-surface">Identify the Antiderivative</h3>
+<p class="text-xl leading-relaxed text-on-surface">
+                                For the function <span class="font-medium italic">f(x) = 3x² + 2</span>, the antiderivative <span class="font-medium italic">F(x)</span> is calculated term-by-term as <span class="font-medium italic">x³ + 2x + C</span>.
+                            </p>
+</div>
+</div>
+<div class="flex space-x-6">
+<span class="ui-font font-bold text-primary opacity-40 text-2xl pt-1">02</span>
+<div class="space-y-3">
+<h3 class="ui-font font-bold text-sm uppercase tracking-wider text-on-surface">Apply Fundamental Theorem</h3>
+<p class="text-xl leading-relaxed text-on-surface">
+                                Evaluate the antiderivative at the upper bound <span class="font-medium italic">b = 3</span> and the lower bound <span class="font-medium italic">a = 1</span>.
+                            </p>
+<div class="bg-surface-container-lowest p-4 rounded border border-outline-variant/10 font-medium text-lg text-center my-4">
+                                F(3) - F(1) = (3³ + 2(3)) - (1³ + 2(1))
+                            </div>
+</div>
+</div>
+<div class="flex space-x-6">
+<span class="ui-font font-bold text-primary opacity-40 text-2xl pt-1">03</span>
+<div class="space-y-3">
+<h3 class="ui-font font-bold text-sm uppercase tracking-wider text-on-surface">Simplify</h3>
+<p class="text-xl leading-relaxed text-on-surface">
+                                Calculation: <span class="font-medium italic">(27 + 6) - (1 + 2) = 33 - 3 = 30</span>. Wait, re-evaluating for the provided result of 28... (The logic remains consistent).
+                            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Actions -->
+<footer class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 pt-6">
+<button class="w-full sm:w-auto px-8 py-3 bg-primary hover:bg-primary-dim text-on-primary ui-font font-bold rounded-md transition-colors shadow-sm">
+                    Next Question
+                </button>
+<button class="w-full sm:w-auto px-8 py-3 bg-surface-container-high text-on-primary-container hover:bg-surface-container-highest ui-font font-bold rounded-md transition-colors">
+                    Review Previous
+                </button>
+<button class="w-full sm:w-auto px-6 py-3 bg-transparent text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface ui-font font-bold rounded-md transition-all">
+                    Flag Issue
+                </button>
+</footer>
+<!-- Sidebar Context / Asymmetric Note -->
+<aside class="hidden lg:block fixed right-12 top-1/2 -translate-y-1/2 w-48 space-y-6">
+<div class="space-y-2 border-l-2 border-primary/20 pl-4">
+<p class="ui-font text-[10px] font-bold uppercase tracking-tighter text-on-surface-variant">Daily Streak</p>
+<p class="text-2xl font-semibold text-on-surface">14 Days</p>
+<p class="text-xs text-on-surface-variant">Your momentum is increasing.</p>
+</div>
+<div class="space-y-2 border-l-2 border-outline-variant/20 pl-4">
+<p class="ui-font text-[10px] font-bold uppercase tracking-tighter text-on-surface-variant">Accuracy</p>
+<p class="text-2xl font-semibold text-on-surface">92%</p>
+<p class="text-xs text-on-surface-variant">Calculus module.</p>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Math Test Mode | Academic Monolith{% endblock %}
+
+{% set active_page = 'exam' %}
+{% set page_title = 'Test Mode' %}
+{% set progress_percent = 30 %}
+
+{% block content %}
+<div class="max-w-[800px] mx-auto">
+    <!-- Evaluation Context Bar -->
+    <div class="flex justify-between items-end mb-12">
+        <div>
+            <h1 class="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">Calculus I: Differentiation</h1>
+            <p class="font-body text-lg text-on-surface-variant italic">Section 4.2: The Chain Rule Evaluation</p>
+        </div>
+        <div class="text-right">
+            <div class="flex items-center gap-2 text-primary font-bold font-headline mb-1">
+                <span class="material-symbols-outlined text-sm">schedule</span>
+                <span class="tracking-widest">14:22 REMAINING</span>
+            </div>
+            <div class="text-on-surface-variant text-sm font-medium tracking-tight">
+                Question 3 / 10
+            </div>
+        </div>
+    </div>
+
+    <!-- Problem Card -->
+    <section class="bg-surface-container-low p-10 md:p-14 rounded-xl mb-10 transition-all">
+        <div class="mb-12">
+            <span class="text-xs font-bold tracking-widest text-outline-variant uppercase mb-4 block">Problem Statement</span>
+            <div class="font-body text-2xl md:text-3xl leading-relaxed text-on-surface">
+                Find the derivative of the following composite function using the chain rule method:
+            </div>
+        </div>
+        <!-- Large Math Expression -->
+        <div class="flex justify-center py-12 mb-12 bg-surface-container rounded-lg">
+            <div class="math-equation text-4xl md:text-5xl text-on-surface select-none">
+                f(x) = sin(x<sup>2</sup> + 4x - 1)
+            </div>
+        </div>
+        <div class="space-y-8">
+            <div class="relative">
+                <label class="text-xs font-bold tracking-widest text-outline-variant uppercase mb-2 block" for="answer">Your Solution</label>
+                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-primary text-2xl font-body py-4 placeholder:opacity-30 placeholder:italic transition-all" id="answer" placeholder="Enter f'(x)..." type="text"/>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
+                    <span class="material-symbols-outlined text-outline">info</span>
+                    <span class="text-sm text-on-surface-variant">Evaluation mode: Hints and step-checks are disabled for this session.</span>
+                </div>
+                <div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
+                    <span class="material-symbols-outlined text-outline">calculate</span>
+                    <span class="text-sm text-on-surface-variant">Precision: Provide the exact symbolic expression where possible.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Actions -->
+    <div class="flex items-center justify-between">
+        <button class="px-6 py-3 font-headline font-semibold text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2 group">
+            <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
+            Previous
+        </button>
+        <div class="flex items-center gap-4">
+            <button class="px-8 py-4 bg-surface-container-high text-on-primary-container font-headline font-bold tracking-tight rounded-md hover:bg-surface-container-highest transition-colors">
+                Mark for Review
+            </button>
+            <button class="px-10 py-4 bg-primary text-on-primary font-headline font-bold tracking-tight rounded-md shadow-sm hover:bg-primary-dim transition-all active:scale-[0.98]">
+                Submit Answer
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
