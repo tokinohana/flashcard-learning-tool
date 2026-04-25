@@ -11,51 +11,42 @@
     <!-- Evaluation Context Bar -->
     <div class="flex justify-between items-end mb-12">
         <div>
-            <h1 class="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">Calculus I: Differentiation</h1>
-            <p class="font-body text-lg text-on-surface-variant italic">Section 4.2: The Chain Rule Evaluation</p>
+            <h1 class="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">{{ session_info.subject }}</h1>
+            <p class="font-body text-lg text-on-surface-variant italic">{{ session_info.topic }}</p>
         </div>
         <div class="text-right">
             <div class="flex items-center gap-2 text-primary font-bold font-headline mb-1">
                 <span class="material-symbols-outlined text-sm">schedule</span>
-                <span class="tracking-widest">14:22 REMAINING</span>
+                <span class="tracking-widest">{{ session_info.timer }} REMAINING</span>
             </div>
             <div class="text-on-surface-variant text-sm font-medium tracking-tight">
-                Question 3 / 10
+                Question {{ session_info.question_num }} / {{ session_info.total_questions }}
             </div>
         </div>
     </div>
 
     <!-- Problem Card -->
-    <section class="bg-surface-container-low p-10 md:p-14 rounded-xl mb-10 transition-all">
-        <div class="mb-12">
-            <span class="text-xs font-bold tracking-widest text-outline-variant uppercase mb-4 block">Problem Statement</span>
-            <div class="font-body text-2xl md:text-3xl leading-relaxed text-on-surface">
-                Find the derivative of the following composite function using the chain rule method:
-            </div>
+    {% set question = "Find the derivative of the following composite function using the chain rule method:" %}
+    {% set latex = "$$f(x) = \\sin(x^2 + 4x - 1)$$" %}
+    {% set input_id = "answer" %}
+    {% set preview_id = "exam-preview" %}
+    {% set type_label = "Problem Statement" %}
+    {% set input_label = "Your Solution" %}
+    {% set placeholder = "Enter f'(x)..." %}
+    {% set submit_id = "submit-exam-btn" %}
+    
+    {% include 'components/problem_card.html' %}
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
+            <span class="material-symbols-outlined text-outline">info</span>
+            <span class="text-sm text-on-surface-variant">Evaluation mode: Hints and step-checks are disabled for this session.</span>
         </div>
-        <!-- Large Math Expression -->
-        <div class="flex justify-center py-12 mb-12 bg-surface-container rounded-lg">
-            <div class="math-equation text-4xl md:text-5xl text-on-surface select-none">
-                f(x) = sin(x<sup>2</sup> + 4x - 1)
-            </div>
+        <div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
+            <span class="material-symbols-outlined text-outline">calculate</span>
+            <span class="text-sm text-on-surface-variant">Precision: Provide the exact symbolic expression where possible.</span>
         </div>
-        <div class="space-y-8">
-            <div class="relative">
-                <label class="text-xs font-bold tracking-widest text-outline-variant uppercase mb-2 block" for="answer">Your Solution</label>
-                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-primary text-2xl font-body py-4 placeholder:opacity-30 placeholder:italic transition-all" id="answer" placeholder="Enter f'(x)..." type="text"/>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
-                    <span class="material-symbols-outlined text-outline">info</span>
-                    <span class="text-sm text-on-surface-variant">Evaluation mode: Hints and step-checks are disabled for this session.</span>
-                </div>
-                <div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
-                    <span class="material-symbols-outlined text-outline">calculate</span>
-                    <span class="text-sm text-on-surface-variant">Precision: Provide the exact symbolic expression where possible.</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Actions -->
     <div class="flex items-center justify-between">
@@ -73,4 +64,28 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+    const examInput = document.getElementById('answer');
+    const examPreview = document.getElementById('exam-preview');
+
+    examInput.addEventListener('input', function() {
+        const val = this.value;
+        if (val.trim() === "") {
+            examPreview.innerHTML = "";
+            return;
+        }
+        
+        examPreview.innerHTML = `$${val}$`;
+        try {
+            renderMathInElement(examPreview, {
+                delimiters: [{left: '$', right: '$', display: false}],
+                throwOnError: false
+            });
+        } catch (e) {
+            console.error("KaTeX error:", e);
+        }
+    });
+</script>
 {% endblock %}

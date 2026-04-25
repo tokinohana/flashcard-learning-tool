@@ -21,16 +21,72 @@ def save_json(filepath, data):
 
 @app.route('/')
 def dashboard():
-    return render_template('pages/dashboard.html', active_page='dashboard', page_title='Mathematics')
+    stats = [
+        {"label": "Accuracy", "value": "92", "unit": "%"},
+        {"label": "Solved", "value": "1,240", "unit": ""},
+        {"label": "Streak", "value": "5", "unit": "Days"}
+    ]
+    mastery = [
+        {
+            "title": "Algebraic Foundations",
+            "percentage": 85,
+            "description": "Excelling in Quadratic Equations and Polynomial Identities."
+        },
+        {
+            "title": "Calculus & Limits",
+            "percentage": 60,
+            "description": "Focus recommended on Integration by Parts."
+        }
+    ]
+    focus_areas = [
+        {
+            "label": "Critical Deficit",
+            "title": "Implicit Differentiation",
+            "description": "Requires practice on chain rule applications within non-linear functions."
+        },
+        {
+            "label": "Technical Error Path",
+            "title": "Logarithmic Transformation",
+            "description": "Frequent sign errors observed in base-10 conversion steps."
+        }
+    ]
+    return render_template('pages/dashboard.html', 
+                           active_page='dashboard', 
+                           page_title='Progress & Mastery',
+                           stats=stats,
+                           mastery=mastery,
+                           focus_areas=focus_areas)
 
 @app.route('/practice')
 def practice():
     flashcards = load_json(FLASHCARDS_FILE)
-    return render_template('pages/practice.html', flashcards=flashcards, active_page='practice', page_title='Practice Mode')
+    session_info = {
+        "subject": "Calculus II",
+        "step": 4,
+        "total_steps": 12,
+        "timer": "14:02"
+    }
+    return render_template('pages/practice.html', 
+                           flashcards=flashcards, 
+                           active_page='practice', 
+                           page_title='Practice Mode',
+                           session_info=session_info,
+                           progress_percent=33)
 
 @app.route('/exam')
 def exam():
-    return render_template('pages/exam.html', active_page='exam', page_title='Test Mode')
+    session_info = {
+        "subject": "Calculus I: Differentiation",
+        "topic": "Section 4.2: The Chain Rule Evaluation",
+        "question_num": 3,
+        "total_questions": 10,
+        "timer": "14:22"
+    }
+    return render_template('pages/exam.html', 
+                           active_page='exam', 
+                           page_title='Test Mode',
+                           session_info=session_info,
+                           progress_percent=30)
 
 @app.route('/feedback')
 def feedback():

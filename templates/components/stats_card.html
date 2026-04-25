@@ -1,0 +1,7 @@
+<div class="bg-surface-container-low p-8 rounded-xl flex flex-col gap-2">
+    <span class="ui-font text-xs font-semibold uppercase tracking-wider text-on-surface-variant">{{ label }}</span>
+    <div class="flex items-baseline gap-1">
+        <span class="text-4xl font-semibold ui-font text-on-surface">{{ value }}</span>
+        {% if unit %}<span class="text-xl text-primary font-medium ui-font">{{ unit }}</span>{% endif %}
+    </div>
+</div>

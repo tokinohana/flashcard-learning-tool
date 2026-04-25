@@ -15,26 +15,9 @@
 
     <!-- Stats Grid -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-        <div class="bg-surface-container-low p-8 rounded-xl flex flex-col gap-2">
-            <span class="ui-font text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Accuracy</span>
-            <div class="flex items-baseline gap-1">
-                <span class="text-4xl font-semibold ui-font text-on-surface">92</span>
-                <span class="text-xl text-primary font-medium ui-font">%</span>
-            </div>
-        </div>
-        <div class="bg-surface-container-low p-8 rounded-xl flex flex-col gap-2">
-            <span class="ui-font text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Solved</span>
-            <div class="flex items-baseline gap-1">
-                <span class="text-4xl font-semibold ui-font text-on-surface">1,240</span>
-            </div>
-        </div>
-        <div class="bg-surface-container-low p-8 rounded-xl flex flex-col gap-2">
-            <span class="ui-font text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Streak</span>
-            <div class="flex items-baseline gap-1">
-                <span class="text-4xl font-semibold ui-font text-on-surface">5</span>
-                <span class="text-sm text-on-surface-variant ui-font ml-2">Days</span>
-            </div>
-        </div>
+        {% for stat in stats %}
+            {% include 'components/stats_card.html' with context %}
+        {% endfor %}
     </section>
 
     <!-- Mastery per Concept Section -->
@@ -44,28 +27,12 @@
             <button class="ui-font text-sm text-primary font-semibold hover:underline decoration-2 underline-offset-4">Full Syllabus View</button>
         </div>
         <div class="space-y-10">
-            <!-- Concept 1 -->
-            <div class="group">
-                <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-lg font-medium text-on-surface">Algebraic Foundations</h4>
-                    <span class="ui-font text-sm font-bold text-primary">85%</span>
-                </div>
-                <div class="h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
-                    <div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 85%"></div>
-                </div>
-                <p class="mt-3 text-sm text-on-surface-variant ui-font font-normal opacity-70">Excelling in Quadratic Equations and Polynomial Identities.</p>
-            </div>
-            <!-- Concept 2 -->
-            <div class="group">
-                <div class="flex justify-between items-center mb-3">
-                    <h4 class="text-lg font-medium text-on-surface">Calculus &amp; Limits</h4>
-                    <span class="ui-font text-sm font-bold text-primary">60%</span>
-                </div>
-                <div class="h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
-                    <div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 60%"></div>
-                </div>
-                <p class="mt-3 text-sm text-on-surface-variant ui-font font-normal opacity-70">Focus recommended on Integration by Parts.</p>
-            </div>
+            {% for item in mastery %}
+                {% set title = item.title %}
+                {% set percentage = item.percentage %}
+                {% set description = item.description %}
+                {% include 'components/mastery_item.html' %}
+            {% endfor %}
         </div>
     </section>
 
@@ -81,16 +48,12 @@
                     Focus Areas
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <h5 class="ui-font text-xs font-bold uppercase text-primary tracking-widest mb-3">Critical Deficit</h5>
-                        <p class="text-lg leading-relaxed text-on-surface">Implicit Differentiation</p>
-                        <p class="text-sm text-on-surface-variant ui-font mt-2 italic">Requires practice on chain rule applications within non-linear functions.</p>
-                    </div>
-                    <div>
-                        <h5 class="ui-font text-xs font-bold uppercase text-primary tracking-widest mb-3">Technical Error Path</h5>
-                        <p class="text-lg leading-relaxed text-on-surface">Logarithmic Transformation</p>
-                        <p class="text-sm text-on-surface-variant ui-font mt-2 italic">Frequent sign errors observed in base-10 conversion steps.</p>
-                    </div>
+                    {% for focus in focus_areas %}
+                        {% set label = focus.label %}
+                        {% set title = focus.title %}
+                        {% set description = focus.description %}
+                        {% include 'components/focus_area.html' %}
+                    {% endfor %}
                 </div>
                 <div class="mt-10">
                     <button class="bg-primary text-on-primary px-6 py-3 rounded-lg ui-font font-semibold text-sm hover:bg-primary-dim transition-colors">Start Corrective Module</button>

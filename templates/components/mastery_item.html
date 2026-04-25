@@ -1,0 +1,10 @@
+<div class="group">
+    <div class="flex justify-between items-center mb-3">
+        <h4 class="text-lg font-medium text-on-surface">{{ title }}</h4>
+        <span class="ui-font text-sm font-bold text-primary">{{ percentage }}%</span>
+    </div>
+    <div class="h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+        <div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: {{ percentage }}%"></div>
+    </div>
+    <p class="mt-3 text-sm text-on-surface-variant ui-font font-normal opacity-70">{{ description }}</p>
+</div>

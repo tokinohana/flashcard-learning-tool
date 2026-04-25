@@ -26,12 +26,12 @@
                 <div class="flex justify-center items-baseline space-x-6">
                     <div class="flex flex-col items-center">
                         <span class="ui-font text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold">Your Answer</span>
-                        <span class="text-4xl font-medium {% if status == 'correct' %}text-on-surface{% else %}text-error{% endif %}">{{ user_answer|default('28') }}</span>
+                        <span class="text-4xl font-medium {% if status == 'correct' %}text-on-surface{% else %}text-error{% endif %}">${{ user_answer|default('28') }}$</span>
                     </div>
                     <div class="w-[1px] h-10 bg-outline-variant/30 self-end mb-1"></div>
                     <div class="flex flex-col items-center">
                         <span class="ui-font text-[10px] uppercase tracking-widest text-primary font-semibold">Correct Answer</span>
-                        <span class="text-4xl font-medium text-primary">{{ correct_answer|default('28') }}</span>
+                        <span class="text-4xl font-medium text-primary">${{ correct_answer|default('28') }}$</span>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     <div class="space-y-3">
                         <h3 class="ui-font font-bold text-sm uppercase tracking-wider text-on-surface">Identify the Antiderivative</h3>
                         <p class="text-xl leading-relaxed text-on-surface">
-                            For the function <span class="font-medium italic">f(x) = 3x² + 2</span>, the antiderivative <span class="font-medium italic">F(x)</span> is calculated term-by-term as <span class="font-medium italic">x³ + 2x + C</span>.
+                            For the function $f(x) = 3x^2 + 2$, the antiderivative $F(x)$ is calculated term-by-term as $x^3 + 2x + C$.
                         </p>
                     </div>
                 </div>
