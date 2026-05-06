@@ -2,9 +2,6 @@
 
 {% block title %}Result | Academic Monolith{% endblock %}
 
-{% set active_page = 'practice' %}
-{% set page_title = 'Result' %}
-
 {% block content %}
 <main class="pt-24 pb-16 px-6 flex justify-center min-h-screen">
     <div class="max-w-[700px] w-full flex flex-col space-y-12">
@@ -26,50 +23,61 @@
                 <div class="flex justify-center items-baseline space-x-6">
                     <div class="flex flex-col items-center">
                         <span class="ui-font text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold">Your Answer</span>
-                        <span class="text-4xl font-medium {% if status == 'correct' %}text-on-surface{% else %}text-error{% endif %}">${{ user_answer|default('28') }}$</span>
+                        <span class="text-4xl font-medium {% if status == 'correct' %}text-on-surface{% else %}text-error{% endif %} math-text">${{ user_answer }}$</span>
                     </div>
                     <div class="w-[1px] h-10 bg-outline-variant/30 self-end mb-1"></div>
                     <div class="flex flex-col items-center">
                         <span class="ui-font text-[10px] uppercase tracking-widest text-primary font-semibold">Correct Answer</span>
-                        <span class="text-4xl font-medium text-primary">${{ correct_answer|default('28') }}$</span>
+                        <span class="text-4xl font-medium text-primary math-text">${{ correct_answer }}$</span>
                     </div>
                 </div>
             </div>
+            {% if question %}
             <div class="pt-2">
                 <span class="inline-block px-3 py-1 bg-surface-container-low text-on-surface-variant ui-font text-xs font-medium tracking-wide rounded-md border border-outline-variant/10">
-                    Fundamental Theorem of Calculus
+                    {{ question.topic }}
                 </span>
             </div>
+            {% endif %}
         </div>
 
         <!-- Explanation Section -->
+        {% if question and question.explanation %}
         <section class="bg-surface-container-low p-10 md:p-12 rounded-lg space-y-8">
             <header class="space-y-2 border-b border-outline-variant/20 pb-6">
                 <h2 class="text-2xl font-semibold text-on-surface">Step-by-Step Explanation</h2>
-                <p class="text-on-surface-variant text-lg italic">How we arrived at the definite integral solution.</p>
+                <p class="text-on-surface-variant text-lg italic">Logic trace for this solution.</p>
             </header>
-            <div class="space-y-10">
+            <div class="space-y-8">
+                {% for step in question.explanation %}
                 <div class="flex space-x-6">
-                    <span class="ui-font font-bold text-primary opacity-40 text-2xl pt-1">01</span>
+                    <span class="ui-font font-bold text-primary opacity-40 text-2xl pt-1">{{ "%02d" % loop.index }}</span>
                     <div class="space-y-3">
-                        <h3 class="ui-font font-bold text-sm uppercase tracking-wider text-on-surface">Identify the Antiderivative</h3>
-                        <p class="text-xl leading-relaxed text-on-surface">
-                            For the function $f(x) = 3x^2 + 2$, the antiderivative $F(x)$ is calculated term-by-term as $x^3 + 2x + C$.
+                        <p class="text-xl leading-relaxed text-on-surface math-text">
+                            {{ step }}
                         </p>
                     </div>
                 </div>
-                <!-- Add more steps as needed -->
+                {% endfor %}
             </div>
         </section>
+        {% endif %}
 
         <!-- Actions -->
         <footer class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 pt-6">
-            <button class="w-full sm:w-auto px-8 py-3 bg-primary hover:bg-primary-dim text-on-primary ui-font font-bold rounded-md transition-colors shadow-sm">
+            {% if next_idx is not none %}
+            <a href="{{ url_for(source, q_idx=next_idx) }}" class="w-full sm:w-auto px-12 py-4 bg-primary hover:bg-primary-dim text-on-primary ui-font font-bold rounded-md transition-colors shadow-md text-center">
                 Next Question
-            </button>
-            <button class="w-full sm:w-auto px-8 py-3 bg-surface-container-high text-on-primary-container hover:bg-surface-container-highest ui-font font-bold rounded-md transition-colors">
-                Review Previous
-            </button>
+            </a>
+            {% else %}
+            <a href="{{ url_for('dashboard') }}" class="w-full sm:w-auto px-12 py-4 bg-primary hover:bg-primary-dim text-on-primary ui-font font-bold rounded-md transition-colors shadow-md text-center">
+                Finish Session
+            </a>
+            {% endif %}
+            
+            <a href="{{ url_for(source, q_idx=q_idx) }}" class="w-full sm:w-auto px-8 py-4 bg-surface-container-high text-on-primary-container hover:bg-surface-container-highest ui-font font-bold rounded-md transition-colors text-center">
+                Retry Question
+            </a>
         </footer>
     </div>
 </main>

@@ -16,9 +16,13 @@
     <!-- Stats Grid -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
         {% for stat in stats %}
-            {% include 'components/stats_card.html' with context %}
+            {% set label = stat.label %}
+            {% set value = stat.value %}
+            {% set unit = stat.unit %}
+            {% include 'components/stats_card.html' %}
         {% endfor %}
     </section>
+
 
     <!-- Mastery per Concept Section -->
     <section class="mb-16">
@@ -36,30 +40,251 @@
         </div>
     </section>
 
-    <!-- Focus Areas -->
+    <!-- AI Insights Section -->
     <section class="mb-16">
-        <div class="bg-surface-container-low p-10 rounded-xl relative overflow-hidden">
+        <div class="bg-surface-container-low p-10 rounded-xl relative overflow-hidden border border-primary/10">
             <div class="absolute top-0 right-0 p-4 opacity-5">
-                <span class="material-symbols-outlined text-8xl">psychology</span>
+                <span class="material-symbols-outlined text-8xl">auto_awesome</span>
             </div>
             <div class="relative z-10">
-                <h3 class="text-xl font-medium text-on-surface mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary" data-icon="bolt">bolt</span>
-                    Focus Areas
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {% for focus in focus_areas %}
-                        {% set label = focus.label %}
-                        {% set title = focus.title %}
-                        {% set description = focus.description %}
-                        {% include 'components/focus_area.html' %}
-                    {% endfor %}
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-xl font-medium text-on-surface flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">psychology</span>
+                        AI Learning Insights
+                    </h3>
+                    <button id="generate-ai-btn" class="flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-lg ui-font font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="material-symbols-outlined text-sm">magic_button</span>
+                        Generate Insights
+                    </button>
                 </div>
-                <div class="mt-10">
-                    <button class="bg-primary text-on-primary px-6 py-3 rounded-lg ui-font font-semibold text-sm hover:bg-primary-dim transition-colors">Start Corrective Module</button>
+
+                <!-- Loading State -->
+                <div id="ai-loading" class="hidden py-12 text-center space-y-4">
+                    <div class="inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                    <p class="text-on-surface-variant italic text-sm" id="ai-status">Initializing diagnostic engine...</p>
+                </div>
+
+                <!-- Insights Grid -->
+                <div id="ai-results" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Dynamic Insights will appear here -->
+                    <div class="col-span-full py-12 text-center text-on-surface-variant/40 italic">
+                        <p>Click "Generate Insights" to analyze your latest mistakes and unlock personalized advice.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 </div>
 {% endblock %}
+
+{% block extra_scripts %}
+<script type="module">
+    import { pipeline, env, dot } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2';
+
+    env.allowLocalModels = false;
+    env.useBrowserCache = true;
+
+    const generateBtn = document.getElementById('generate-ai-btn');
+    const aiLoading = document.getElementById('ai-loading');
+    const aiResults = document.getElementById('ai-results');
+    const aiStatus = document.getElementById('ai-status');
+
+    let extractor = null;
+    let isFallback = false;
+    const mistakes = {{ mistakes|tojson }};
+
+    const KNOWLEDGE_BASE = [
+        {
+            concept: "Chain Rule Application",
+            keywords: ["chain", "derivative", "outer", "inner", "ln", "sin", "cos"],
+            pattern: "derivative of sin(x^2), cos(x^2), inner function, chain rule",
+            reason: "Struggling with composition of functions and nested derivatives.",
+            advice: "Practice the 'outside-in' rule: differentiate the outer shell first, then multiply by the inner derivative.",
+            next_step: "Try differentiating $\ln(\sin(x))$."
+        },
+        {
+            concept: "Integration by Parts",
+            keywords: ["integral", "parts", "u", "dv", "liate", "xe^x"],
+            pattern: "integral of x*sin(x), u*dv, integration by parts, substitution",
+            reason: "Difficulty choosing 'u' and 'dv' in multi-term integrals.",
+            advice: "Use the LIATE rule (Logs, Inverse, Algebraic, Trig, Exponential) to select your 'u'.",
+            next_step: "Evaluate $\int x e^x dx$."
+        },
+        {
+            concept: "Fundamental Theorem of Calculus",
+            keywords: ["integral", "interval", "antiderivative", "f(b)", "f(a)", "sign"],
+            pattern: "integral over interval, antiderivative, F(b) - F(a), sign error",
+            reason: "Frequent arithmetic errors during the final subtraction step of definite integrals.",
+            advice: "Always keep bracketed terms separate until the final step to avoid negative sign distribution errors.",
+            next_step: "Review $F(b) - F(a)$ for polynomial functions."
+        }
+    ];
+
+    async function initAI() {
+        if (extractor || isFallback) return;
+        
+        aiStatus.textContent = "Connecting to AI Hub...";
+        
+        // 5-second timeout for AI initialization
+        const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error("AI Timeout")), 5000)
+        );
+
+        try {
+            aiStatus.textContent = "Downloading diagnostic model (~23MB)...";
+            extractor = await Promise.race([
+                pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2'),
+                timeoutPromise
+            ]);
+            aiStatus.textContent = "AI Engine Active (Remote).";
+        } catch (err) {
+            console.warn("AI Init failed or timed out. Switching to Local Heuristics.", err);
+            isFallback = true;
+            aiStatus.textContent = "Diagnostic Engine Active (Local Fallback).";
+        }
+    }
+
+    window.addEventListener('load', () => {
+        setTimeout(initAI, 1000);
+    });
+
+    generateBtn.addEventListener('click', async () => {
+        if (!mistakes || mistakes.length === 0) {
+            alert("No mistakes to analyze yet!");
+            return;
+        }
+
+        aiLoading.classList.remove('hidden');
+        aiResults.classList.add('hidden');
+        generateBtn.disabled = true;
+
+        if (!extractor && !isFallback) await initAI();
+
+        aiResults.innerHTML = '';
+        aiResults.classList.remove('hidden');
+
+        // Group mistakes by topic
+        const byTopic = {};
+        mistakes.forEach(m => {
+            if (!m.correct) {
+                if (!byTopic[m.topic]) byTopic[m.topic] = [];
+                byTopic[m.topic].push(m);
+            }
+        });
+
+        for (const [topic, topicMistakes] of Object.entries(byTopic)) {
+            aiStatus.textContent = `Analyzing ${topic}...`;
+            
+            let insight = null;
+
+            if (extractor && !isFallback) {
+                // Primary AI Logic (Neural)
+                insight = await neuralAnalyze(topic, topicMistakes);
+            } else {
+                // Fallback Logic (Heuristic)
+                insight = heuristicAnalyze(topic, topicMistakes);
+            }
+
+            if (insight) renderInsight(insight);
+        }
+
+        aiLoading.classList.add('hidden');
+        generateBtn.disabled = false;
+        aiStatus.textContent = isFallback ? "Analysis complete (Local Engine)." : "Analysis complete (AI Engine).";
+    });
+
+    async function neuralAnalyze(topic, topicMistakes) {
+        // Embed KB
+        for (let entry of KNOWLEDGE_BASE) {
+            if (!entry.embedding) {
+                const output = await extractor(entry.pattern, { pooling: 'mean', normalize: true });
+                entry.embedding = output.data;
+            }
+        }
+        
+        const summary = topicMistakes.map(m => m.question_id + " " + m.topic + " " + m.user_answer).join(' ');
+        const studentOutput = await extractor(summary, { pooling: 'mean', normalize: true });
+        const studentEmbedding = studentOutput.data;
+
+        let bestMatch = null;
+        let highestSim = -1;
+        for (let entry of KNOWLEDGE_BASE) {
+            const sim = dot(studentEmbedding, entry.embedding);
+            if (sim > highestSim) {
+                highestSim = sim;
+                bestMatch = entry;
+            }
+        }
+
+        return {
+            title: topic,
+            weak_concept: bestMatch.concept,
+            reason: bestMatch.reason,
+            advice: bestMatch.advice,
+            next_step: bestMatch.next_step
+        };
+    }
+
+    function heuristicAnalyze(topic, topicMistakes) {
+        // Simple keyword matching for instant results
+        const text = topicMistakes.map(m => (m.topic + " " + m.user_answer).toLowerCase()).join(' ');
+        
+        let bestMatch = KNOWLEDGE_BASE[0]; // Default
+        let maxScore = -1;
+
+        KNOWLEDGE_BASE.forEach(entry => {
+            let score = 0;
+            entry.keywords.forEach(kw => {
+                if (text.includes(kw)) score++;
+            });
+            if (score > maxScore) {
+                maxScore = score;
+                bestMatch = entry;
+            }
+        });
+
+        return {
+            title: topic,
+            weak_concept: bestMatch.concept,
+            reason: bestMatch.reason,
+            advice: bestMatch.advice,
+            next_step: bestMatch.next_step
+        };
+    }
+
+    function renderInsight(insight) {
+        const div = document.createElement('div');
+        div.className = "p-6 bg-surface/30 rounded-lg border border-outline-variant/10 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500";
+        div.innerHTML = `
+            <div>
+                <span class="text-[10px] font-bold text-primary uppercase tracking-widest block mb-1">Topic: ${insight.title}</span>
+                <h4 class="text-lg font-medium text-on-surface">${insight.weak_concept}</h4>
+            </div>
+            <div class="space-y-3">
+                <p class="text-sm text-on-surface-variant leading-relaxed"><strong class="text-on-surface">Diagnosis:</strong> ${insight.reason}</p>
+                <div class="bg-primary/5 p-4 rounded-md border-l-4 border-primary">
+                    <p class="text-xs text-on-surface-variant leading-relaxed mb-2"><strong class="text-primary">Actionable Advice:</strong> ${insight.advice}</p>
+                    <p class="text-[10px] font-bold text-on-surface uppercase tracking-tighter flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[12px]">trending_flat</span>
+                        Next Step: ${insight.next_step}
+                    </p>
+                </div>
+            </div>
+        `;
+        aiResults.appendChild(div);
+
+        // Trigger real-time LaTeX rendering
+        if (window.renderMathInElement) {
+            renderMathInElement(div, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        }
+    }
+
+</script>
+{% endblock %}
+

@@ -4,7 +4,7 @@
 
 {% set active_page = 'practice' %}
 {% set page_title = 'Practice Mode' %}
-{% set progress_percent = 33 %}
+
 
 {% block content %}
 <div class="max-w-[800px] mx-auto">
@@ -22,10 +22,10 @@
     </div>
 
     <!-- Problem Card -->
-    {% if flashcards %}
-    {% set card = flashcards[0] %}
-    {% set question = card.question %}
-    {% set latex = card.latex %}
+    {% if current_card %}
+    {% set question = current_card.question %}
+    {% set latex = current_card.latex %}
+    {% set options = current_card.options %}
     {% include 'components/problem_card.html' %}
     
     <!-- Feedback State (Hidden by default, shown on submit) -->
@@ -36,14 +36,14 @@
                     <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
                         <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'wght' 700;">check</span>
                     </div>
-                    <span id="feedback-status" class="font-headline font-bold text-sm text-primary tracking-tight">Correct: Result is {{ card.answer }}</span>
+                    <span id="feedback-status" class="font-headline font-bold text-sm text-primary tracking-tight">Correct: Result is {{ current_card.answer }}</span>
                 </div>
                 <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">expand_more</span>
             </div>
             <div class="mt-6 pt-6 border-t border-outline-variant/10">
                 <h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4 font-headline">Step-by-step Solution</h4>
                 <div class="math-text text-lg text-on-surface space-y-4 leading-relaxed">
-                    {% for step in card.explanation %}
+                    {% for step in current_card.explanation %}
                     <p>{{ step }}</p>
                     {% endfor %}
                 </div>
@@ -54,15 +54,28 @@
 
     <!-- Contextual Navigation -->
     <div class="mt-16 flex justify-between items-center text-on-surface-variant">
-        <button class="flex items-center gap-2 hover:text-primary transition-colors text-sm font-semibold group">
+        {% if q_idx > 0 %}
+        <a href="{{ url_for('practice', q_idx=q_idx-1) }}" class="flex items-center gap-2 hover:text-primary transition-colors text-sm font-semibold group">
             <span class="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform">arrow_back</span>
             Previous Problem
-        </button>
-        <button class="flex items-center gap-2 hover:text-primary transition-colors text-sm font-semibold group">
+        </a>
+        {% else %}
+        <div class="w-10"></div>
+        {% endif %}
+
+        {% if q_idx < flashcards|length - 1 %}
+        <a href="{{ url_for('practice', q_idx=q_idx+1) }}" class="flex items-center gap-2 hover:text-primary transition-colors text-sm font-semibold group">
             Next Problem
             <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
-        </button>
+        </a>
+        {% else %}
+        <a href="{{ url_for('dashboard') }}" class="flex items-center gap-2 text-primary transition-colors text-sm font-bold group">
+            Finish Session
+            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">task_alt</span>
+        </a>
+        {% endif %}
     </div>
+
 </div>
 
 <!-- Sidebar Detail for Focus -->
@@ -81,7 +94,46 @@
 
 {% block extra_scripts %}
 <script>
+    // Timer Logic
+    const timerDisplay = document.querySelector('.tabular-nums');
+    let timeLeft = sessionStorage.getItem('practice_remaining_time');
+    
+    if (timeLeft === null) {
+        timeLeft = 1200; // 20 minutes in seconds
+        sessionStorage.setItem('practice_remaining_time', timeLeft);
+    } else {
+        timeLeft = parseInt(timeLeft);
+    }
+
+    const timerInterval = setInterval(() => {
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            sessionStorage.removeItem('practice_remaining_time');
+            alert("Focus session complete! Redirecting to dashboard.");
+            window.location.href = "/dashboard";
+            return;
+        }
+        
+        timeLeft -= 1;
+        sessionStorage.setItem('practice_remaining_time', timeLeft);
+        
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        if (timerDisplay) {
+            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+    }, 1000);
+
+    // Cleanup on finish
+    const finishBtn = document.querySelector('a[href="/dashboard"]');
+    if (finishBtn) {
+        finishBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('practice_remaining_time');
+        });
+    }
+
     const answerInput = document.getElementById('math-answer');
+
     const mathPreview = document.getElementById('math-preview');
 
     answerInput.addEventListener('input', function() {
@@ -102,31 +154,68 @@
             console.error("KaTeX error:", e);
         }
     });
+    
+    // MCQ Selection Logic
+    document.querySelectorAll('.mcq-option').forEach(button => {
+        button.addEventListener('click', function() {
+            // Reset all options
+            document.querySelectorAll('.mcq-option').forEach(btn => {
+                btn.classList.remove('border-primary', 'bg-primary/5');
+                btn.classList.add('bg-surface-container-high', 'border-transparent');
+                btn.querySelector('.bg-primary').classList.add('scale-0');
+            });
+            
+            // Select this option
+            this.classList.remove('bg-surface-container-high', 'border-transparent');
+            this.classList.add('border-primary', 'bg-primary/5');
+            this.querySelector('.bg-primary').classList.remove('scale-0');
+            
+            // Update hidden input
+            answerInput.value = this.getAttribute('data-value');
+        });
+    });
+
 
     document.getElementById('submit-btn').addEventListener('click', function() {
-        const answer = answerInput.value;
+        const userValue = answerInput.value.trim();
+        const correctAnswer = "{{ current_card.answer }}";
         const feedbackSection = document.getElementById('feedback-section');
-        feedbackSection.classList.remove('hidden');
+        const feedbackStatus = document.getElementById('feedback-status');
+        const problemCard = document.querySelector('.bg-surface-container-low');
         
-        // Basic check for demo
-        if (answer === "{{ flashcards[0].answer }}") {
-            // Record success
+        const isCorrect = userValue.toLowerCase() === correctAnswer.toLowerCase();
+        
+        if (isCorrect) {
+            feedbackStatus.textContent = `Correct: Result is ${correctAnswer}`;
+            problemCard.classList.add('border-primary/50', 'bg-primary/5');
         } else {
+            feedbackStatus.textContent = `Incorrect: The correct result is ${correctAnswer}`;
+            feedbackStatus.classList.replace('text-primary', 'text-error');
+            problemCard.classList.add('border-error/50', 'bg-error/5');
+            
             // Record mistake
             fetch('/api/mistake', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    question_id: "{{ flashcards[0].id }}",
-                    topic: "{{ flashcards[0].topic }}",
-                    user_answer: answer,
-                    correct_answer: "{{ flashcards[0].answer }}",
+                    question_id: "{{ current_card.id }}",
+                    topic: "{{ current_card.topic }}",
+                    user_answer: userValue,
+                    correct_answer: correctAnswer,
                     correct: false
                 })
             });
         }
+        
+        feedbackSection.classList.remove('hidden');
+        this.disabled = true;
+        answerInput.disabled = true;
+        
+        // Disable MCQ options if applicable
+        document.querySelectorAll('.mcq-option').forEach(btn => {
+            btn.style.pointerEvents = 'none';
+        });
     });
+
 </script>
 {% endblock %}

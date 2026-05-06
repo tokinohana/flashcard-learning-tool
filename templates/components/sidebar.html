@@ -19,6 +19,18 @@
             <span class="material-symbols-outlined" data-icon="trending_up" {% if active_page == 'dashboard' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>trending_up</span>
             <span class="text-[10px] font-medium ui-font">Progress</span>
         </a>
+        <!-- Review -->
+        <a class="{% if active_page == 'review' %}text-[#4d44e3] dark:text-indigo-400{% else %}text-zinc-400 dark:text-zinc-600{% endif %} hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="{{ url_for('review_mistakes') }}">
+            <span class="material-symbols-outlined" data-icon="auto_stories" {% if active_page == 'review' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>auto_stories</span>
+            <span class="text-[10px] font-medium ui-font">Review</span>
+        </a>
+        <!-- Add -->
+
+        <a class="{% if active_page == 'add' %}text-[#4d44e3] dark:text-indigo-400{% else %}text-zinc-400 dark:text-zinc-600{% endif %} hover:text-[#4d44e3] dark:hover:text-indigo-300 transition-colors scale-95 duration-200 flex flex-col items-center gap-1" href="{{ url_for('add_question') }}">
+            <span class="material-symbols-outlined" data-icon="add_box" {% if active_page == 'add' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>add_box</span>
+            <span class="text-[10px] font-medium ui-font">Add</span>
+        </a>
+
     </nav>
     <div class="mt-auto">
         <img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant/20 grayscale hover:grayscale-0 transition-all cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCasXi54vvP28ImgYC1lpTtX6Au9wB6uc2dxVmANxLI4CL4LfeRJKEZIy7SXQ-_hXzUHST1LZYbGvcvNv_ilMjh2ubB8Nx5SNWlA6GVgFzdao37U5JCgV5wfvXUz1sQtjY-nVszRpmeXqcqgk_zbDXn81t6wg6NMaPgJIx-TZuNGWs9_nV00eGWXfObUkrRPCfpiFmpcVkPkKeJjVLui9RrHPk2FUrHEplheQLNDPc0WF-3kJF46wcUGEIYBJ6y-1GIAIoeA1B2PgFY"/>

@@ -4,7 +4,7 @@
 
 {% set active_page = 'exam' %}
 {% set page_title = 'Test Mode' %}
-{% set progress_percent = 30 %}
+
 
 {% block content %}
 <div class="max-w-[800px] mx-auto">
@@ -26,8 +26,10 @@
     </div>
 
     <!-- Problem Card -->
-    {% set question = "Find the derivative of the following composite function using the chain rule method:" %}
-    {% set latex = "$$f(x) = \\sin(x^2 + 4x - 1)$$" %}
+    {% if question_data %}
+    {% set question = question_data.question %}
+    {% set latex = question_data.latex %}
+    {% set options = question_data.options %}
     {% set input_id = "answer" %}
     {% set preview_id = "exam-preview" %}
     {% set type_label = "Problem Statement" %}
@@ -36,56 +38,145 @@
     {% set submit_id = "submit-exam-btn" %}
     
     {% include 'components/problem_card.html' %}
+    {% else %}
+    <div class="bg-surface-container-low p-10 rounded-lg text-center">
+        <p class="text-on-surface-variant italic">No MCQ questions available for this session.</p>
+    </div>
+    {% endif %}
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        <div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
-            <span class="material-symbols-outlined text-outline">info</span>
-            <span class="text-sm text-on-surface-variant">Evaluation mode: Hints and step-checks are disabled for this session.</span>
-        </div>
-        <div class="p-4 bg-surface-container-high/50 rounded-lg flex items-center gap-3">
-            <span class="material-symbols-outlined text-outline">calculate</span>
-            <span class="text-sm text-on-surface-variant">Precision: Provide the exact symbolic expression where possible.</span>
-        </div>
-    </div>
-
+...
     <!-- Actions -->
-    <div class="flex items-center justify-between">
-        <button class="px-6 py-3 font-headline font-semibold text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2 group">
+    <div class="flex items-center justify-between mt-12">
+        {% if q_idx > 0 %}
+        <a href="{{ url_for('exam', q_idx=q_idx-1) }}" class="px-6 py-3 font-headline font-semibold text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2 group">
             <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
             Previous
-        </button>
+        </a>
+        {% else %}
+        <div class="w-10"></div>
+        {% endif %}
+
         <div class="flex items-center gap-4">
             <button class="px-8 py-4 bg-surface-container-high text-on-primary-container font-headline font-bold tracking-tight rounded-md hover:bg-surface-container-highest transition-colors">
                 Mark for Review
             </button>
-            <button class="px-10 py-4 bg-primary text-on-primary font-headline font-bold tracking-tight rounded-md shadow-sm hover:bg-primary-dim transition-all active:scale-[0.98]">
+            <button id="submit-exam-btn-real" class="px-10 py-4 bg-primary text-on-primary font-headline font-bold tracking-tight rounded-md shadow-sm hover:bg-primary-dim transition-all active:scale-[0.98]">
                 Submit Answer
             </button>
         </div>
     </div>
+
 </div>
 {% endblock %}
 {% block extra_scripts %}
 <script>
-    const examInput = document.getElementById('answer');
-    const examPreview = document.getElementById('exam-preview');
+    // Timer Logic
+    const timerDisplay = document.querySelector('.tracking-widest');
+    let timeLeft = sessionStorage.getItem('exam_remaining_time');
+    
+    if (timeLeft === null) {
+        timeLeft = 900; // 15 minutes in seconds
+        sessionStorage.setItem('exam_remaining_time', timeLeft);
+    } else {
+        timeLeft = parseInt(timeLeft);
+    }
 
-    examInput.addEventListener('input', function() {
-        const val = this.value;
-        if (val.trim() === "") {
-            examPreview.innerHTML = "";
+    const timerInterval = setInterval(() => {
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            sessionStorage.removeItem('exam_remaining_time');
+            alert("Time is up! The exam will now be submitted.");
+            window.location.href = "/dashboard"; // Or current feedback
             return;
         }
         
-        examPreview.innerHTML = `$${val}$`;
-        try {
-            renderMathInElement(examPreview, {
-                delimiters: [{left: '$', right: '$', display: false}],
-                throwOnError: false
-            });
-        } catch (e) {
-            console.error("KaTeX error:", e);
+        timeLeft -= 1;
+        sessionStorage.setItem('exam_remaining_time', timeLeft);
+        
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        if (timerDisplay) {
+            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')} REMAINING`;
         }
+    }, 1000);
+
+    const examInput = document.getElementById('answer');
+
+    const examPreview = document.getElementById('exam-preview');
+
+    if (examInput && examPreview) {
+        examInput.addEventListener('input', function() {
+            const val = this.value;
+            if (val.trim() === "") {
+                examPreview.innerHTML = "";
+                return;
+            }
+            
+            examPreview.innerHTML = `$${val}$`;
+            try {
+                renderMathInElement(examPreview, {
+                    delimiters: [{left: '$', right: '$', display: false}],
+                    throwOnError: false
+                });
+            } catch (e) {
+                console.error("KaTeX error:", e);
+            }
+        });
+    }
+
+    // MCQ Selection Logic
+    document.querySelectorAll('.mcq-option').forEach(button => {
+        button.addEventListener('click', function() {
+            // Reset all options
+            document.querySelectorAll('.mcq-option').forEach(btn => {
+                btn.classList.remove('border-primary', 'bg-primary/5');
+                btn.classList.add('bg-surface-container-high', 'border-transparent');
+                btn.querySelector('.bg-primary').classList.add('scale-0');
+            });
+            
+            // Select this option
+            this.classList.remove('bg-surface-container-high', 'border-transparent');
+            this.classList.add('border-primary', 'bg-primary/5');
+            this.querySelector('.bg-primary').classList.remove('scale-0');
+            
+            // Update hidden input
+            if (examInput) {
+                examInput.value = this.getAttribute('data-value');
+            }
+        });
+    });
+
+    document.getElementById('submit-exam-btn-real').addEventListener('click', function() {
+        const answer = examInput ? examInput.value : "";
+        if (!answer) {
+            alert("Please provide an answer.");
+            return;
+        }
+
+        const isCorrect = answer === "{{ question_data.answer if question_data else '' }}";
+        
+        if (!isCorrect) {
+            fetch('/api/mistake', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    question_id: "{{ question_data.id if question_data else '' }}",
+                    topic: "{{ question_data.topic if question_data else '' }}",
+                    user_answer: answer,
+                    correct_answer: "{{ question_data.answer if question_data else '' }}",
+                    correct: false
+                })
+            }).then(() => {
+                window.location.href = `/feedback?status=incorrect&user_answer=${encodeURIComponent(answer)}&correct_answer=${encodeURIComponent("{{ question_data.answer if question_data else '' }}")}&q_idx={{ q_idx }}&source=exam`;
+            });
+        } else {
+            window.location.href = `/feedback?status=correct&user_answer=${encodeURIComponent(answer)}&correct_answer=${encodeURIComponent("{{ question_data.answer if question_data else '' }}")}&q_idx={{ q_idx }}&source=exam`;
+        }
+
     });
 </script>
 {% endblock %}
+

@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Question | Academic Monolith{% endblock %}
+
+{% block content %}
+<div class="max-w-[1000px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 py-8">
+    <!-- Form Section -->
+    <section class="space-y-8">
+        <div>
+            <h2 class="text-3xl font-headline font-extrabold tracking-tighter text-on-surface mb-2">Create New Question</h2>
+            <p class="text-on-surface-variant font-body italic">Build high-fidelity content for your academic library.</p>
+        </div>
+
+        <form id="add-question-form" class="space-y-6 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10 shadow-sm">
+            <!-- Topic -->
+            <div class="space-y-2">
+                <label class="text-[10px] font-bold text-primary uppercase tracking-widest font-headline">Topic Area</label>
+                <input type="text" id="topic" name="topic" placeholder="e.g. Calculus II, Linear Algebra..." class="w-full bg-surface-container-lowest border-outline-variant/30 rounded-md focus:ring-primary focus:border-primary py-3 px-4 ui-font text-sm" required>
+            </div>
+
+            <!-- Type Toggle -->
+            <div class="space-y-2">
+                <label class="text-[10px] font-bold text-primary uppercase tracking-widest font-headline">Question Type</label>
+                <div class="flex gap-4">
+                    <button type="button" data-type="text" class="type-btn flex-1 py-3 px-4 rounded-md border-2 border-primary bg-primary/5 text-primary font-bold ui-font text-sm flex items-center justify-center gap-2 transition-all">
+                        <span class="material-symbols-outlined text-lg">edit_square</span>
+                        Text Answer
+                    </button>
+                    <button type="button" data-type="mcq" class="type-btn flex-1 py-3 px-4 rounded-md border-2 border-transparent bg-surface-container-lowest text-on-surface-variant font-bold ui-font text-sm flex items-center justify-center gap-2 transition-all">
+                        <span class="material-symbols-outlined text-lg">checklist</span>
+                        Multiple Choice
+                    </button>
+                </div>
+                <input type="hidden" id="type" name="type" value="text">
+            </div>
+
+            <!-- Question Content -->
+            <div class="space-y-2">
+                <label class="text-[10px] font-bold text-primary uppercase tracking-widest font-headline">Problem Statement</label>
+                <textarea id="question-text" name="question" rows="3" placeholder="Describe the problem here..." class="w-full bg-surface-container-lowest border-outline-variant/30 rounded-md focus:ring-primary focus:border-primary py-3 px-4 ui-font text-sm" required></textarea>
+            </div>
+
+            <!-- LaTeX Expression -->
+            <div class="space-y-2">
+                <label class="text-[10px] font-bold text-primary uppercase tracking-widest font-headline">Mathematical Expression (LaTeX)</label>
+                <textarea id="latex-text" name="latex" rows="2" placeholder="e.g. \int_{1}^{3} x^2 dx..." class="w-full bg-surface-container-lowest border-outline-variant/30 rounded-md focus:ring-primary focus:border-primary py-3 px-4 font-mono text-sm"></textarea>
+            </div>
+
+            <!-- MCQ Options (Hidden by default) -->
+            <div id="mcq-section" class="hidden space-y-4 pt-4 border-t border-outline-variant/10">
+                <div class="flex justify-between items-center">
+                    <label class="text-[10px] font-bold text-primary uppercase tracking-widest font-headline">Multiple Choice Options</label>
+                    <button type="button" id="add-option-btn" class="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">add_circle</span>
+                        Add Option
+                    </button>
+                </div>
+                <div id="options-container" class="space-y-3">
+                    <!-- Dynamic Options -->
+                </div>
+            </div>
+
+            <!-- Correct Answer -->
+            <div class="space-y-2">
+                <label class="text-[10px] font-bold text-primary uppercase tracking-widest font-headline">Correct Answer</label>
+                <input type="text" id="answer" name="answer" placeholder="The exact answer to match..." class="w-full bg-surface-container-lowest border-outline-variant/30 rounded-md focus:ring-primary focus:border-primary py-3 px-4 ui-font text-sm font-bold" required>
+            </div>
+
+            <!-- Explanation Steps -->
+            <div class="space-y-4 pt-4 border-t border-outline-variant/10">
+                <div class="flex justify-between items-center">
+                    <label class="text-[10px] font-bold text-primary uppercase tracking-widest font-headline">Step-by-Step Explanation</label>
+                    <button type="button" id="add-step-btn" class="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">add_circle</span>
+                        Add Step
+                    </button>
+                </div>
+                <div id="steps-container" class="space-y-3">
+                    <!-- Dynamic Steps -->
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-primary hover:bg-primary-dim text-on-primary py-4 px-6 rounded-md font-headline font-bold text-sm tracking-widest uppercase transition-all shadow-md active:scale-[0.98]">
+                Save Question to Library
+            </button>
+        </form>
+    </section>
+
+    <!-- Preview Section (Sticky) -->
+    <section class="space-y-8 relative">
+        <div class="sticky top-32 space-y-6">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary">visibility</span>
+                <h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest font-headline">Real-time Preview</h3>
+            </div>
+
+            <!-- Preview Card (Simulating Problem Card) -->
+            <div id="preview-container">
+                {% include 'components/problem_card.html' with context %}
+            </div>
+
+            <!-- Feedback Preview -->
+            <div class="bg-surface-container-high/50 p-6 rounded-lg border-l-4 border-primary">
+                <h4 class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4 font-headline">Logic Trace (Explanation)</h4>
+                <div id="explanation-preview" class="math-text text-sm text-on-surface space-y-2 leading-relaxed opacity-60">
+                    <p class="italic text-xs">Steps will appear here...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const form = document.getElementById('add-question-form');
+    const typeInput = document.getElementById('type');
+    const mcqSection = document.getElementById('mcq-section');
+    const optionsContainer = document.getElementById('options-container');
+    const stepsContainer = document.getElementById('steps-container');
+
+    // Dynamic Options Management
+    let optionCount = 0;
+    function addOption(value = "") {
+        optionCount++;
+        const div = document.createElement('div');
+        div.className = "flex gap-2 group items-center";
+        div.innerHTML = `
+            <div class="flex-1 relative">
+                <input type="text" class="option-input w-full bg-surface-container-lowest border-outline-variant/30 rounded-md py-2 px-3 text-sm ui-font" placeholder="Option ${optionCount}" value="${value}">
+            </div>
+            <button type="button" class="remove-btn text-outline-variant hover:text-error opacity-0 group-hover:opacity-100 transition-opacity">
+                <span class="material-symbols-outlined text-lg">delete</span>
+            </button>
+        `;
+        optionsContainer.appendChild(div);
+        
+        div.querySelector('.remove-btn').addEventListener('click', () => {
+            div.remove();
+            updatePreview();
+        });
+        div.querySelector('.option-input').addEventListener('input', updatePreview);
+        updatePreview();
+    }
+
+    // Dynamic Steps Management
+    let stepCount = 0;
+    function addStep(value = "") {
+        stepCount++;
+        const div = document.createElement('div');
+        div.className = "flex gap-2 group items-start";
+        div.innerHTML = `
+            <div class="flex-1">
+                <textarea class="step-input w-full bg-surface-container-lowest border-outline-variant/30 rounded-md py-2 px-3 text-sm ui-font" rows="1" placeholder="Step ${stepCount}" value="${value}"></textarea>
+            </div>
+            <button type="button" class="remove-btn pt-2 text-outline-variant hover:text-error opacity-0 group-hover:opacity-100 transition-opacity">
+                <span class="material-symbols-outlined text-lg">delete</span>
+            </button>
+        `;
+        stepsContainer.appendChild(div);
+        
+        div.querySelector('.remove-btn').addEventListener('click', () => {
+            div.remove();
+            updatePreview();
+        });
+        div.querySelector('.step-input').addEventListener('input', updatePreview);
+        updatePreview();
+    }
+
+    document.getElementById('add-option-btn').addEventListener('click', () => addOption());
+    document.getElementById('add-step-btn').addEventListener('click', () => addStep());
+
+    // Type Toggle Logic
+    document.querySelectorAll('.type-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.type-btn').forEach(b => {
+                b.classList.remove('border-primary', 'bg-primary/5', 'text-primary');
+                b.classList.add('border-transparent', 'bg-surface-container-lowest', 'text-on-surface-variant');
+            });
+            this.classList.remove('border-transparent', 'bg-surface-container-lowest', 'text-on-surface-variant');
+            this.classList.add('border-primary', 'bg-primary/5', 'text-primary');
+            
+            const type = this.dataset.type;
+            typeInput.value = type;
+            
+            if (type === 'mcq') {
+                mcqSection.classList.remove('hidden');
+                if (optionsContainer.children.length === 0) {
+                    addOption(); addOption(); addOption(); addOption();
+                }
+            } else {
+                mcqSection.classList.add('hidden');
+            }
+            updatePreview();
+        });
+    });
+
+    // Real-time Preview Logic
+    const questionInput = document.getElementById('question-text');
+    const latexInput = document.getElementById('latex-text');
+    const answerInput = document.getElementById('answer');
+    
+    // Elements in the problem_card component (included via Jinja)
+    // We need to query them from the DOM
+    function updatePreview() {
+        const previewQ = document.querySelector('#preview-container .math-text.text-3xl');
+        const previewLatex = document.querySelector('#preview-container .math-text.text-5xl');
+        const previewOptions = document.querySelector('#preview-container #mcq-options');
+        const previewTextInput = document.querySelector('#preview-container .relative.group');
+        const explanationPreview = document.getElementById('explanation-preview');
+
+        if (previewQ) previewQ.innerHTML = questionInput.value || "Your question will appear here...";
+        if (previewLatex) {
+            if (latexInput.value) {
+                previewLatex.parentElement.classList.remove('hidden');
+                previewLatex.innerHTML = `$$${latexInput.value}$$`;
+            } else {
+                previewLatex.parentElement.classList.add('hidden');
+            }
+        }
+
+        // Options Preview
+        if (typeInput.value === 'mcq') {
+            if (previewTextInput) previewTextInput.classList.add('hidden');
+            if (previewOptions) {
+                previewOptions.classList.remove('hidden');
+                previewOptions.innerHTML = '';
+                document.querySelectorAll('.option-input').forEach(input => {
+                    const optVal = input.value || "...";
+                    const btn = document.createElement('button');
+                    btn.className = "mcq-option w-full py-4 px-6 bg-surface-container-high border-2 border-transparent rounded-lg text-left transition-all flex items-center justify-between";
+                    btn.innerHTML = `
+                        <span class="math-text text-lg text-on-surface">${optVal}</span>
+                        <div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center">
+                            <div class="w-2.5 h-2.5 rounded-full bg-primary scale-0"></div>
+                        </div>
+                    `;
+                    previewOptions.appendChild(btn);
+                });
+            }
+        } else {
+            if (previewTextInput) previewTextInput.classList.remove('hidden');
+            if (previewOptions) previewOptions.classList.add('hidden');
+        }
+
+        // Explanation Preview
+        explanationPreview.innerHTML = '';
+        const steps = Array.from(document.querySelectorAll('.step-input')).map(i => i.value).filter(v => v);
+        if (steps.length > 0) {
+            steps.forEach((step, i) => {
+                const p = document.createElement('p');
+                p.innerHTML = `${i+1}. ${step}`;
+                explanationPreview.appendChild(p);
+            });
+        } else {
+            explanationPreview.innerHTML = '<p class="italic text-xs">Steps will appear here...</p>';
+        }
+
+        // Re-render KaTeX
+        try {
+            renderMathInElement(document.getElementById('preview-container'), {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+            renderMathInElement(explanationPreview, {
+                delimiters: [
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        } catch (e) {}
+    }
+
+    [questionInput, latexInput, answerInput].forEach(el => el.addEventListener('input', updatePreview));
+
+    // Form Submission
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const data = {
+            topic: document.getElementById('topic').value,
+            type: typeInput.value,
+            question: questionInput.value,
+            latex: latexInput.value,
+            answer: answerInput.value,
+            options: Array.from(document.querySelectorAll('.option-input')).map(i => i.value),
+            explanation: Array.from(document.querySelectorAll('.step-input')).map(i => i.value).filter(v => v)
+        };
+
+        try {
+            const resp = await fetch('/api/add_question', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await resp.json();
+            if (result.status === 'success') {
+                alert(result.message);
+                window.location.href = '/dashboard';
+            }
+        } catch (err) {
+            alert('Error adding question: ' + err);
+        }
+    });
+
+    // Initialize with one step
+    addStep();
+    updatePreview();
+</script>
+{% endblock %}
