@@ -5,78 +5,199 @@
 {% set active_page = 'exam' %}
 {% set page_title = 'Test Mode' %}
 
-
 {% block content %}
-<div class="max-w-[800px] mx-auto">
-    <!-- Evaluation Context Bar -->
-    <div class="flex justify-between items-end mb-12">
-        <div>
-            <h1 class="font-headline text-3xl font-extrabold tracking-tighter text-on-surface">{{ session_info.subject }}</h1>
-            <p class="font-body text-lg text-on-surface-variant italic">{{ session_info.topic }}</p>
-        </div>
-        <div class="text-right">
-            <div class="flex items-center gap-2 text-primary font-bold font-headline mb-1">
-                <span class="material-symbols-outlined text-sm">schedule</span>
-                <span class="tracking-widest">{{ session_info.timer }} REMAINING</span>
-            </div>
-            <div class="text-on-surface-variant text-sm font-medium tracking-tight">
-                Question {{ session_info.question_num }} / {{ session_info.total_questions }}
-            </div>
-        </div>
-    </div>
+<div class="max-w-[1400px] w-full mx-auto flex gap-4 h-[calc(100vh-140px)] overflow-hidden">
 
-    <!-- Problem Card -->
-    {% if question_data %}
-    {% set question = question_data.question %}
-    {% set latex = question_data.latex %}
-    {% set options = question_data.options %}
-    {% set input_id = "answer" %}
-    {% set preview_id = "exam-preview" %}
-    {% set type_label = "Problem Statement" %}
-    {% set input_label = "Your Solution" %}
-    {% set placeholder = "Enter f'(x)..." %}
-    {% set submit_id = "submit-exam-btn" %}
-    
-    {% include 'components/problem_card.html' %}
-    {% else %}
-    <div class="bg-surface-container-low p-10 rounded-lg text-center">
-        <p class="text-on-surface-variant italic">No MCQ questions available for this session.</p>
-    </div>
-    {% endif %}
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-...
-    <!-- Actions -->
-    <div class="flex items-center justify-between mt-12">
-        {% if q_idx > 0 %}
-        <a href="{{ url_for('exam', q_idx=q_idx-1) }}" class="px-6 py-3 font-headline font-semibold text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2 group">
-            <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
-            Previous
-        </a>
-        {% else %}
-        <div class="w-10"></div>
+    <div class="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+
+        <div class="flex justify-between items-center mb-2 shrink-0">
+            <div class="flex items-center gap-3">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40 font-headline">{{ session_info.subject }}</span>
+                <span class="text-[10px] font-medium text-on-surface-variant/60 font-headline">Question {{ session_info.question_num }} / {{ session_info.total_questions }}</span>
+            </div>
+            <div class="flex items-center gap-1 text-primary font-bold font-headline text-[10px]">
+                <span class="material-symbols-outlined text-[12px]">schedule</span>
+                <span class="tracking-widest timer-display">{{ session_info.timer }} REMAINING</span>
+            </div>
+        </div>
+
+        {% if question_data %}
+        <section id="main-problem-container" class="bg-surface-container-low rounded-lg border border-surface-container flex-1 flex flex-col relative overflow-hidden transition-colors duration-300">
+
+            <div class="flex-1 overflow-y-auto p-4 pb-20 custom-scrollbar">
+                <div class="space-y-3 problem-content-compact">
+                    {% set compact = true %}
+                    {% set show_preview = false %}
+                    {% set hide_hint = true %}
+                    {% set question = question_data.question %}
+                    {% set latex = question_data.latex %}
+                    {% set options = question_data.options %}
+                    {% set input_id = "answer" %}
+                    {% set preview_id = "exam-preview" %}
+                    {% include 'components/problem_card.html' %}
+                </div>
+
+                <button id="show-hint-btn-practice" class="hidden text-[11px] font-headline font-bold uppercase tracking-tighter text-on-surface-variant/50 hover:text-primary transition-colors flex items-center justify-center gap-1 py-1 px-3 rounded border border-outline-variant/10 hover:border-primary/30 bg-surface-container-high/30 whitespace-nowrap">
+                    <span class="material-symbols-outlined text-sm">lightbulb</span>
+                    Hint
+                </button>
+                <div id="hint-text-area" class="hidden text-[11px] text-on-surface-variant/70 italic bg-surface-container-high/20 p-2 rounded border border-outline-variant/5 text-center mt-1">
+                    {{ question_data.hint if question_data.hint else "Examine the expression structure." }}
+                </div>
+            </div>
+
+            <div class="absolute left-0 right-0 bottom-0 flex items-center justify-between bg-surface-container-low/95 backdrop-blur-md px-4 py-2 border-t border-outline-variant/10 z-10 shrink-0">
+                <div>
+                    {% if q_idx > 0 %}
+                    <a href="{{ url_for('exam', q_idx=q_idx-1) }}" class="px-2 py-1 font-headline font-semibold text-on-surface-variant/50 hover:text-on-surface flex items-center gap-1 group text-[10px]">
+                        <span class="material-symbols-outlined text-xs group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                        Prev
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div id="exam-action-row" class="flex items-center gap-2">
+                    <button class="px-2 py-1 text-on-surface-variant/50 font-headline font-bold text-[9px] uppercase tracking-tight rounded border border-outline-variant/10 hover:bg-surface-container-high transition-colors">
+                        Review
+                    </button>
+
+                    <button id="submit-exam-btn-real" class="px-4 py-1.5 bg-primary text-on-primary font-headline font-bold rounded flex items-center gap-1 text-[10px] shadow-sm hover:bg-primary-dim transition-all active:scale-[0.98]">
+                        Submit
+                        <span class="material-symbols-outlined text-xs">send</span>
+                    </button>
+                </div>
+            </div>
+        </section>
         {% endif %}
-
-        <div class="flex items-center gap-4">
-            <button class="px-8 py-4 bg-surface-container-high text-on-primary-container font-headline font-bold tracking-tight rounded-md hover:bg-surface-container-highest transition-colors">
-                Mark for Review
-            </button>
-            <button id="submit-exam-btn-real" class="px-10 py-4 bg-primary text-on-primary font-headline font-bold tracking-tight rounded-md shadow-sm hover:bg-primary-dim transition-all active:scale-[0.98]">
-                Submit Answer
-            </button>
-        </div>
     </div>
 
+    <div class="hidden lg:flex flex-col w-[280px] shrink-0 h-full overflow-hidden">
+        <div id="desktop-practice-feedback-inner" class="flex-1 bg-surface-container/30 p-4 rounded-lg border border-outline-variant/10 overflow-hidden">
+            <h3 class="font-headline font-bold text-[9px] uppercase tracking-widest text-on-surface-variant/40 mb-3">Derivation</h3>
+
+            <div id="feedback-placeholder" class="h-full flex flex-col items-center justify-center text-center opacity-20">
+                <span class="material-symbols-outlined text-2xl mb-1 font-light">History_Edu</span>
+                <p class="text-[9px] italic">Awaiting submission.</p>
+            </div>
+
+            <div id="desktop-feedback-content" class="hidden h-full flex flex-col">
+                <div class="flex items-center gap-2 mb-3 p-1.5 rounded border border-outline-variant/5" id="status-container-ds">
+                    <span id="status-icon-ds" class="material-symbols-outlined text-xs"></span>
+                    <span id="feedback-status-ds" class="font-headline font-bold text-[10px]"></span>
+                </div>
+                <div class="space-y-2 text-[11px] leading-relaxed text-on-surface-variant overflow-hidden">
+                    {% if question_data %}
+                        {% for step in question_data.explanation %}
+                        <p>{{ step }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="mt-auto pt-4">
+                    <a href="{{ url_for('exam', q_idx=q_idx+1) if q_idx < session_info.total_questions - 1 else url_for('dashboard') }}" class="w-full py-1.5 bg-surface-container-highest text-on-surface font-headline font-bold rounded text-[10px] flex items-center justify-center gap-1 hover:bg-outline-variant/20 transition-colors">
+                        {{ 'Next' if q_idx < session_info.total_questions - 1 else 'Finish' }}
+                        <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    body, html { overflow: hidden !important; height: 100%; }
+
+    #main-problem-container section.bg-surface-container-low {
+        padding: 1rem 1.25rem !important;
+    }
+
+    #main-problem-container .math-text.text-3xl,
+    #main-problem-container .math-text.md\:text-4xl {
+        font-size: 1.75rem !important;
+        line-height: 2.2rem !important;
+        font-style: normal !important;
+    }
+
+    #main-problem-container .math-text.text-5xl {
+        font-size: 2.25rem !important;
+        line-height: 2.75rem !important;
+        padding: 0.5rem 0.75rem !important;
+    }
+
+    #main-problem-container .mb-12 { margin-bottom: 0.75rem !important; }
+    #main-problem-container .mt-10 { margin-top: 0.4rem !important; }
+
+    #main-problem-container .max-w-md {
+        max-width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.4rem !important;
+    }
+
+    #main-problem-container .max-w-md .relative.group {
+        width: 100% !important;
+    }
+
+    #main-problem-container .max-w-md .flex.flex-col.gap-4 {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 0.4rem !important;
+        width: 100% !important;
+    }
+
+    #main-problem-container input.text-3xl {
+        font-size: 0.9rem !important;
+        padding: 0.25rem 0 !important;
+    }
+
+    #main-problem-container #exam-preview {
+        display: none !important;
+    }
+
+    #main-problem-container label { margin-bottom: 0.1rem !important; }
+
+    #main-problem-container #submit-btn {
+        flex: 1 !important;
+        padding: 0.35rem 0.75rem !important;
+        font-size: 0.72rem !important;
+        border-radius: 0.375rem !important;
+        white-space: nowrap !important;
+    }
+
+    #main-problem-container #mcq-options { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 0.3rem !important; }
+    #main-problem-container .mcq-option {
+        padding: 0.4rem 0.65rem !important;
+        font-size: 0.82rem !important;
+        min-height: 0 !important;
+    }
+    #main-problem-container .mcq-option .math-text.text-lg {
+        font-size: 0.82rem !important;
+    }
+
+    #main-problem-container .flex.justify-between.items-center.px-2 {
+        display: none !important;
+    }
+
+    #main-problem-container #submit-btn { /* the template button */
+        display: none !important;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(var(--md-sys-color-outline-variant-rgb), 0.1);
+        border-radius: 10px;
+    }
+</style>
 {% endblock %}
+
 {% block extra_scripts %}
 <script>
-    // Timer Logic
-    const timerDisplay = document.querySelector('.tracking-widest');
+    const timerDisplay = document.querySelector('.timer-display');
     let timeLeft = sessionStorage.getItem('exam_remaining_time');
-    
+
     if (timeLeft === null) {
-        timeLeft = 900; // 15 minutes in seconds
+        timeLeft = 900;
         sessionStorage.setItem('exam_remaining_time', timeLeft);
     } else {
         timeLeft = parseInt(timeLeft);
@@ -86,97 +207,90 @@
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             sessionStorage.removeItem('exam_remaining_time');
-            alert("Time is up! The exam will now be submitted.");
-            window.location.href = "/dashboard"; // Or current feedback
+            window.location.href = "/dashboard";
             return;
         }
-        
         timeLeft -= 1;
         sessionStorage.setItem('exam_remaining_time', timeLeft);
-        
         const mins = Math.floor(timeLeft / 60);
         const secs = timeLeft % 60;
-        if (timerDisplay) {
-            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')} REMAINING`;
-        }
+        if (timerDisplay) timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')} REMAINING`;
     }, 1000);
+
+    const hintBtn = document.getElementById('show-hint-btn-practice');
+    const hintArea = document.getElementById('hint-text-area');
+    const actionRow = document.getElementById('exam-action-row');
+    if (hintBtn && actionRow) {
+        actionRow.insertBefore(hintBtn, actionRow.querySelector('#submit-exam-btn-real'));
+        hintBtn.classList.remove('hidden');
+    }
+    if (hintBtn && hintArea) {
+        hintBtn.addEventListener('click', () => hintArea.classList.toggle('hidden'));
+    }
 
     const examInput = document.getElementById('answer');
 
-    const examPreview = document.getElementById('exam-preview');
-
-    if (examInput && examPreview) {
-        examInput.addEventListener('input', function() {
-            const val = this.value;
-            if (val.trim() === "") {
-                examPreview.innerHTML = "";
-                return;
-            }
-            
-            examPreview.innerHTML = `$${val}$`;
-            try {
-                renderMathInElement(examPreview, {
-                    delimiters: [{left: '$', right: '$', display: false}],
-                    throwOnError: false
-                });
-            } catch (e) {
-                console.error("KaTeX error:", e);
-            }
-        });
-    }
-
-    // MCQ Selection Logic
     document.querySelectorAll('.mcq-option').forEach(button => {
         button.addEventListener('click', function() {
-            // Reset all options
             document.querySelectorAll('.mcq-option').forEach(btn => {
                 btn.classList.remove('border-primary', 'bg-primary/5');
                 btn.classList.add('bg-surface-container-high', 'border-transparent');
-                btn.querySelector('.bg-primary').classList.add('scale-0');
+                btn.querySelector('.bg-primary')?.classList.add('scale-0');
             });
-            
-            // Select this option
-            this.classList.remove('bg-surface-container-high', 'border-transparent');
-            this.classList.add('border-primary', 'bg-primary/5');
-            this.querySelector('.bg-primary').classList.remove('scale-0');
-            
-            // Update hidden input
-            if (examInput) {
-                examInput.value = this.getAttribute('data-value');
-            }
+            this.classList.replace('border-transparent', 'border-primary');
+            this.classList.replace('bg-surface-container-high', 'bg-primary/5');
+            this.querySelector('.bg-primary')?.classList.remove('scale-0');
+            if (examInput) examInput.value = this.getAttribute('data-value');
         });
     });
 
-    document.getElementById('submit-exam-btn-real').addEventListener('click', function() {
-        const answer = examInput ? examInput.value : "";
-        if (!answer) {
-            alert("Please provide an answer.");
-            return;
-        }
+    const submitBtn = document.getElementById('submit-exam-btn-real');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function() {
+            const userValue = (examInput ? examInput.value : "").trim();
+            if (!userValue) return;
 
-        const isCorrect = answer === "{{ question_data.answer if question_data else '' }}";
-        
-        if (!isCorrect) {
+            const correctAnswer = "{{ question_data.answer if question_data else '' }}";
+            const isCorrect = userValue.toLowerCase() === correctAnswer.toLowerCase();
+
+            const placeholder = document.getElementById('feedback-placeholder');
+            const contentDs = document.getElementById('desktop-feedback-content');
+            const statusDs = document.getElementById('feedback-status-ds');
+            const iconDs = document.getElementById('status-icon-ds');
+            const containerDs = document.getElementById('status-container-ds');
+
+            if (placeholder) placeholder.classList.add('hidden');
+            if (contentDs) {
+                contentDs.classList.remove('hidden');
+                statusDs.textContent = isCorrect ? "Verified" : "Incorrect";
+                iconDs.textContent = isCorrect ? "check_circle" : "cancel";
+                containerDs.className = `flex items-center gap-2 mb-2 p-1.5 rounded border ${isCorrect ? 'bg-primary/5 border-primary/20 text-primary' : 'bg-error/5 border-error/20 text-error'}`;
+
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(contentDs, {
+                        delimiters: [{left: '$', right: '$', display: false}, {left: '$$', right: '$$', display: true}],
+                        throwOnError: false
+                    });
+                }
+            }
+
             fetch('/api/mistake', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     question_id: "{{ question_data.id if question_data else '' }}",
                     topic: "{{ question_data.topic if question_data else '' }}",
-                    user_answer: answer,
-                    correct_answer: "{{ question_data.answer if question_data else '' }}",
-                    correct: false
+                    user_answer: userValue,
+                    correct_answer: correctAnswer,
+                    correct: isCorrect
                 })
-            }).then(() => {
-                window.location.href = `/feedback?status=incorrect&user_answer=${encodeURIComponent(answer)}&correct_answer=${encodeURIComponent("{{ question_data.answer if question_data else '' }}")}&q_idx={{ q_idx }}&source=exam`;
             });
-        } else {
-            window.location.href = `/feedback?status=correct&user_answer=${encodeURIComponent(answer)}&correct_answer=${encodeURIComponent("{{ question_data.answer if question_data else '' }}")}&q_idx={{ q_idx }}&source=exam`;
-        }
 
-    });
+            this.disabled = true;
+            this.classList.add('opacity-50');
+            if (examInput) examInput.disabled = true;
+            document.querySelectorAll('.mcq-option').forEach(btn => btn.style.pointerEvents = 'none');
+        });
+    }
 </script>
 {% endblock %}
-
